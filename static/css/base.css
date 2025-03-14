@@ -1,0 +1,106 @@
+@import url(index.css);
+
+main {
+  display: block;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: rgb(42, 69, 100);
+  border-radius: 20px;
+}
+main * {
+  border-radius: 20px;
+}
+
+
+/* BASE INFO */
+.base_info {
+  margin: 4%;
+  border: 7px solid rgb(28, 47, 68);
+}
+.base_info * {
+  color: rgb(192, 219, 247);
+}
+.base_info h1{
+  font-size: 160%;
+  line-height: 1.8;
+  text-align: center;
+}
+.base_info a:hover {
+  color: rgb(255, 255, 255);
+  text-decoration: underline;
+}
+.base_info p {
+  font-size: 120%;
+  line-height: 1.6;
+}
+
+
+/*LAST*/
+.last {
+  margin: 4%;
+  border: 7px solid rgb(28, 47, 68);
+}
+.last * {
+  color: rgb(192, 219, 247);
+}
+.last h2 {
+  font-size: 160%;
+  margin-bottom: 2%;
+  margin-top: 1%;
+  text-align: center;
+  color: rgb(255, 255, 255)
+}
+
+/*slider*/
+.slider-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+.slide {
+  min-width: calc(33.33% - 20px);
+  box-sizing: border-box;
+  margin: 0 10px;
+  margin-bottom: 10px;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px; 
+  background-color: #223852; 
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+  white-space: normal; 
+}
+.slide h3 {
+  font-size: 140%;
+  word-wrap: break-word;
+  margin-bottom: 3.5%;
+  color: rgb(223, 239, 255);
+}
+.slide p {
+  margin: 5px 0 0;
+  font-size: 120%;
+  word-wrap: break-word;
+}
+.slider-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  border: none;
+  font-size: 150%;
+  cursor: pointer;
+  z-index: 10;
+}
+.prev {
+  left: 10px;
+}
+.next {
+  right: 10px;
+}
