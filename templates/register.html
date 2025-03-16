@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="CSS/base.css">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="LOGO.png" alt="logo.net">
+    </div>
+    <nav>
+      <a href="base.html">Главная</a>
+      <a href="ribbon.html">Лента</a>
+      <a href="">Настройки</a>
+    </nav>
+
+    <!-- ПОИСК -->
+    <div class="search_block">
+      <form>
+        <input type="text" placeholder="Поиск">
+        <button type="submit">Найти</button>
+      </form>
+    </div>
+    <!-- AKKKKK -->
+    <div class="account">
+      <a href="">Регистрация</a>
+      <a href="">Вход</a>
+    </div>
+  </header>
+
+  <main class="reg-auth">
+    <div class="reg-container">
+      <!-- Форма регистрации -->
+      <div class="form-container" id="register-form-container">
+        <h2>Регистрация</h2>
+        <form id="register-form">
+          <label for="register-name">Имя:</label>
+          <input type="text" id="register-name" name="name" required>
+  
+          <label for="register-email">Email:</label>
+          <input type="email" id="register-email" name="email" required>
+  
+          <label for="register-password">Пароль:</label>
+          <input type="password" id="register-password" name="password" required>
+  
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+        <p>Уже есть аккаунт? <a href="#" id="login-link">Войти</a></p>
+      </div>
+  
+      <!-- Форма авторизации -->
+      <div class="form-container hidden" id="login-form-container">
+        <h2>Авторизация</h2>
+        <form id="login-form">
+          <label for="login-email">Email:</label>
+          <input type="email" id="login-email" name="email" required>
+  
+          <label for="login-password">Пароль:</label>
+          <input type="password" id="login-password" name="password" required>
+  
+          <button type="submit">Войти</button>
+        </form>
+        <p>Нет аккаунта? <a href="#" id="register-link">Зарегистрироваться</a></p>
+      </div>
+    </div>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const registerFormContainer = document.getElementById('register-form-container');
+        const loginFormContainer = document.getElementById('login-form-container');
+        const loginLink = document.getElementById('login-link');
+        const registerLink = document.getElementById('register-link');
+
+        // Переключение
+        loginLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          registerFormContainer.classList.add('hidden');
+          loginFormContainer.classList.remove('hidden');
+        });
+
+        registerLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          loginFormContainer.classList.add('hidden');
+          registerFormContainer.classList.remove('hidden');
+        });
+
+        // регистрация
+        const registerForm = document.getElementById('register-form');
+        registerForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById('register-name').value;
+          const email = document.getElementById('register-email').value;
+          const password = document.getElementById('register-password').value;
+
+          if (!name || !email || !password) {
+            alert('Пожалуйста, заполните все поля.');
+            return;
+          }
+
+          console.log('Регистрация:', { name, email, password });
+          alert('Вы успешно зарегистрировались!');
+        });
+
+        // авторизация
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById('login-email').value;
+          const password = document.getElementById('login-password').value;
+
+          if (!email || !password) {
+            alert('Пожалуйста, заполните все поля.');
+            return;
+          }
+
+          console.log('Авторизация:', { email, password });
+          alert('Вы успешно вошли!');
+        });
+      });
+    </script>
+  </main>
+</body>
+</html>
