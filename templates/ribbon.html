@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="CSS/base.css">
+	<title>Document</title>
+</head>
+<body>
+	<header>
+    <div class="logo">
+      <img src="LOGO.png" alt="logo.net">
+    </div>
+    <nav>
+      <a href="base.html">Главная</a>
+      <a href="ribbon.html">Лента</a>
+      <a href="">Настройки</a>
+    </nav>
+
+    <!-- ПОИСК -->
+    <div class="search_block">
+      <form>
+        <input type="text" placeholder="Поиск">
+        <button type="submit">Найти</button>
+      </form>
+    </div>
+    <!-- AKKKKK -->
+    <div class="account">
+      <a href="">Регистрация</a>
+      <a href="">Вход</a>
+    </div>
+  </header>
+
+	<main class="ribbon">
+		<!-- Сортировка -->
+		<div class="sort">
+			<!-- Выпадающий список для сортировки -->
+			<div class="sort-options">
+				<label for="sort-by">Сортировать по дате:</label>
+				<select id="sort-by">
+					<option value="newest">Вниз</option>
+					<option value="oldest">Вверх</option>
+				</select>
+			</div>
+			<!-- Теги -->
+			<h1>#Теги <input type="text" id="tag-search" placeholder="Поиск тегов"></h1>
+			<div class="tags">
+				<ul id="tags-list">
+					<!-- Теги сюда -->
+				</ul>
+			</div>
+		</div>
+
+		<!-- Статьи -->
+		<div class="articles-blocks">
+			<div class="article-block">
+				<div class="header">
+					<h1 class="title">Статья</h1>
+					<span class="date">2023-10-01</span>
+				</div>
+				<pre class="main-text">Эта статья о том как несли мужика</pre>
+			</div>
+			<div class="article-block">
+				<div class="header">
+					<h1 class="title">Древо яда</h1>
+					<span class="date">2023-09-25</span>
+				</div>
+				<pre class="main-text">
+					В ярость друг меня привёл —
+					Гнев излил я, гнев прошёл.
+					Враг обиду мне нанёс —
+					Я молчал, но гнев мой рос.
+					
+					Я таил его в тиши
+					В глубине своей души,
+					То слезами поливал,
+					То улыбкой согревал.
+					
+					Рос он ночью, рос он днём.
+					Зрело яблочко на нём,
+					Яда сладкого полно.
+					Знал мой недруг, чье оно.
+					
+					Темной ночью в тишине
+					Он прокрался в сад ко мне
+					И остался недвижим,
+					Ядом скованный моим. 
+				</pre>
+			</div>
+		</div>
+	</main>
+	
+	<script>
+		// Массив тегов
+		const tags = ["A", "B", "C", "D", "F", "G", "GG"];
+	
+		document.addEventListener('DOMContentLoaded', () => {
+			const tagsList = document.getElementById('tags-list'); 
+			const tagSearchInput = document.getElementById('tag-search'); 
+			const sortBySelect = document.getElementById('sort-by'); 
+	
+			// Создание тегов
+			function createTags(tags) {
+				tags.forEach(tag => {
+					const listItem = document.createElement('li');
+	
+					const checkbox = document.createElement('input');
+					checkbox.type = 'checkbox';
+					checkbox.value = tag;
+					checkbox.className = 'tag-checkbox';
+	
+					const text = document.createElement('p');
+					text.textContent = tag;
+	
+					const label = document.createElement('label');
+					label.appendChild(checkbox);
+					label.appendChild(text);
+					listItem.appendChild(label);
+					tagsList.appendChild(listItem);
+				});
+			}
+	
+			// Функция фильтрации тегов по поисковому запросу
+			function filterTags() {
+				const query = tagSearchInput.value.trim().toLowerCase();
+				const tagItems = tagsList.querySelectorAll('li');
+	
+				tagItems.forEach(item => {
+					const tagText = item.querySelector('p').textContent.toLowerCase();
+					if (tagText.includes(query)) {
+						item.style.display = ''; // Показываем элемент
+					} else {
+						item.style.display = 'none'; // Скрываем элемент
+					}
+				});
+			}
+	
+			// отображение статей
+			function displayArticles(articles) {
+				articlesContainer.innerHTML = ''; // Очищаем контейнер
+	
+				articles.forEach(article => {
+					const articleBlock = document.createElement('div');
+					articleBlock.classList.add('article-block');
+	
+					const title = document.createElement('h1');
+					title.classList.add('title');
+					title.textContent = article.title;
+	
+					const content = document.createElement('pre');
+					content.classList.add('main-text');
+					content.textContent = article.content;
+	
+					articleBlock.appendChild(title);
+					articleBlock.appendChild(content);
+					articlesContainer.appendChild(articleBlock);
+				});
+			}
+	
+			createTags(tags);
+			tagSearchInput.addEventListener('input', filterTags);
+		});
+	</script>
+
+</body>
+</html>

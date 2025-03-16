@@ -1,5 +1,5 @@
-@import url(reset.css);
 @import url(index.css);
+
 
 main {
   display: block;
@@ -104,4 +104,124 @@ main * {
 }
 .next {
   right: 10px;
+}
+
+
+
+/*RIBBON*/
+
+main.ribbon {
+  display: flex;
+  color: rgb(192, 219, 247);
+}
+
+/* SORT */
+.sort {
+  flex-basis: 14%;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  padding: 1%;
+  border: 2px solid #ccc;
+  max-width: 14%;
+  word-wrap: break-word;
+  height: fit-content;
+  background-color: #223852;
+}
+.sort h1 {
+  font-size: 22px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  margin-bottom: 20px;
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+}
+.sort h1 input[type="text"] {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 3px;
+  width: 60%; 
+}
+.sort-options {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sort-options label {
+  font-size: 16px;
+}
+.sort-options select {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.tags ul {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.tags label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tags input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2a4564;
+}
+.tags p {
+  font-size: 16px;
+}
+.sort-options select option {
+  background-color: #2a4564; 
+  color: #ccc; 
+  padding: 8px; 
+}
+
+
+/*ARTICLES*/
+div.articles-blocks {
+  flex-basis: 86%;
+  margin-left: .5%;
+  margin-right: .5%;
+  padding-left: 1%;
+  padding-right: 1%;
+  word-wrap: break-word;
+}
+div.article-block {
+  margin-left: .5%;
+  margin-right: .5%;
+  margin-bottom: 3%;
+  padding: 1.5%;
+  word-wrap: break-word;
+  border: 2px solid #ccc;
+  background-color: #223852;
+}
+div.article-block .header {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+}
+div.article-block h1 {
+  font-size: 26px;
+  border-bottom: 1px solid #ccc;
+  max-width: fit-content;
+  border-radius: 0;
+}
+div.article-block .date {
+  font-size: 16px;
+  padding: .5%; 
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+}
+div.article-block pre {
+  margin-top: 10px;
+  line-height: 2;
+  font-size: 16px;
 }
