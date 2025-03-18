@@ -3,6 +3,7 @@ from flask import Flask, render_template, url_for, redirect
 from data import db_session
 from src.settings import SECRET_KEY  # Получаем секртеный ключ ответа сервера для flask-wtf
 from src.user_management import *
+from src.article_management import *
 from forms.user import LoginForm, RegisterForm # Импортируем классы форм
 
 app = Flask(__name__)
@@ -18,7 +19,9 @@ def main():
 @app.route("/index")
 def index():
     params = {}
+    articles = get_last_articles()
     params["title"] = "OGTIwi"
+    params["articles"] = articles
 
     return render_template("index.html", **params)
 
