@@ -7,7 +7,7 @@
       <div class="form-container" id="register-form-container">
         <h2>Регистрация</h2>
         <form id="register-form" action="{{ url_for('register') }}" method="POST">
-          {{ form_log.hidden_tag() }}
+          {{ form_reg.hidden_tag() }}
 
           <label>{{ form_reg.name.label }}</label>
           {{ form_reg.name(class="form-control") }}
@@ -47,100 +47,8 @@
 
           {{ form_reg.submit(type="submit", class="btn btn-primary") }}
         </form>
-        <p>Уже есть аккаунт? <a href="#" id="login-link">Войти</a></p>
-      </div>
-
-      <!-- Форма авторизации -->
-      <div class="form-container hidden" id="login-form-container">
-        <h2>Авторизация</h2>
-        <form id="login-form">
-        {{ form_log.hidden_tag() }}
-
-        <label>{{ form_log.email.label }}</label>
-        {{ form_log.email(class="form-control") }}
-
-          {% for error in form_log.email.errors %}
-              <p class="alert alert-danger" role="alert">
-                  {{ error }}
-              </p>
-          {% endfor %}
-
-        <label>{{ form_log.password.label }}</label>
-        {{ form_log.password(class="form-control") }}
-
-          {% for error in form_log.password.errors %}
-              <p class="alert alert-danger" role="alert">
-                  {{ error }}
-              </p>
-          {% endfor %}
-
-        {{ form_log.submit(type="submit", class="btn btn-primary") }}
-        </form>
-        <p>Нет аккаунта? <a href="#" id="register-link">Зарегистрироваться</a></p>
+        <p>Уже есть аккаунт? <a href="{{ url_for('login') }}" id="login-link">Войти</a></p>
       </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          // Получаем элементы DOM
-          const registerFormContainer = document.getElementById('register-form-container');
-          const loginFormContainer = document.getElementById('login-form-container');
-          const loginLink = document.getElementById('login-link');
-          const registerLink = document.getElementById('register-link');
-          const registerForm = document.getElementById('register-form');
-          const loginForm = document.getElementById('login-form');
-
-          // Переключение между формами
-          loginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            registerFormContainer.classList.add('hidden');
-            loginFormContainer.classList.remove('hidden');
-          });
-
-          registerLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginFormContainer.classList.add('hidden');
-            registerFormContainer.classList.remove('hidden');
-          });
-
-          // Обработчик формы регистрации
-          registerForm.addEventListener('submit', (e) => {
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const retype_password = document.getElementById('retype-register-password').value;
-
-            if (!name || !email || !password || !retype_password) {
-              alert('Пожалуйста, заполните все поля.');
-              e.preventDefault(); // Блокируем отправку, если поля пустые
-              return;
-            }
-
-            if (password !== retype_password) {
-              alert('Пароли не совпадают.');
-              e.preventDefault(); // Блокируем отправку, если пароли не совпадают
-              return;
-            }
-
-            console.log('Данные регистрации:', { name, email, password });
-            // Если всё хорошо, форма отправится на сервер
-          });
-
-          // Обработчик формы авторизации
-          loginForm.addEventListener('submit', (e) => {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-
-            if (!email || !password) {
-              alert('Пожалуйста, заполните все поля.');
-              e.preventDefault(); // Блокируем отправку, если поля пустые
-              return;
-            }
-
-            console.log('Данные авторизации:', { email, password });
-            // Если всё хорошо, форма отправится на сервер
-          });
-        });
-    </script>
   </main>
 {% endblock %}

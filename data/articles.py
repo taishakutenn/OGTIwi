@@ -13,7 +13,7 @@ class Article(SqlAlchemyBase):
     author_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'), nullable=False)  # ID автора
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)  # Дата создания
     updated_date = sqlalchemy.Column(sqlalchemy.DateTime, onupdate=datetime.datetime.now, nullable=True)  # Дата обновления
-    file_path = sqlalchemy.Column(sqlalchemy.String, nullable=False)  # Путь к файлу с текстом статьи
+    article_text = sqlalchemy.Column(sqlalchemy.String, nullable=False) # Текст статьи
     tags = sqlalchemy.Column(sqlalchemy.String, nullable=True)  # Теги для фильтрации
     views = sqlalchemy.Column(sqlalchemy.Integer, default=0, index=True)  # Количество просмотров
 

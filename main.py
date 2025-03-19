@@ -1,4 +1,7 @@
+from dbm import error
+
 from flask import Flask, render_template, url_for, redirect
+from flask_login import LoginManager, login_user
 
 from data import db_session
 from src.settings import SECRET_KEY  # Получаем секртеный ключ ответа сервера для flask-wtf
@@ -9,6 +12,8 @@ from forms.user import LoginForm, RegisterForm # Импортируем клас
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 def main():
     db_session.global_init("db/ogti_wi_articles.db")  # Инициилизируем бд
@@ -28,22 +33,14 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    form_log = LoginForm()
     form_reg = RegisterForm()
-
-    params = {
-        "title": "Авторизация",
-        "form_log": form_log,
-        "form_reg": form_reg
-    }
-
-    # if form_log.validate_on_submit():
-    #     return redirect('/index')
+    params = {}
+    params["title"] = "Регистрация"
+    params["form_reg"] = form_reg
 
     if form_reg.validate_on_submit():
-        print("Кнопка))")
         if form_reg.password.data != form_reg.retype_password.data:
-            print("Пароли не совпадают")
+            params["error_message"] = "Пароли не совпадают"
             return render_template("register.html", **params)
 
         try:
@@ -56,11 +53,37 @@ def register():
             )
             return redirect('/index')
         except ValueError as e:
-            print(f"Ошибка регистрации: {e}")
-            params["error_message"] = str(e)  # Передаем сообщение об ошибке в шаблон
+            params["error_message"] = str(e)
             return render_template("register.html", **params)
 
     return render_template("register.html", **params)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    params = {}
+    form_log = LoginForm()
+    params["title"] = "Авторизация"
+
+    if form_log.validate_on_submit():
+        user = get_user_info(email=form_log.email.data)
+        if not user:
+            return render_template("login.html", form_log=form_log, error_message="Такого пользователя не существует")
+
+        if not user.check_password(form_log.password.data):
+            return render_template("login.html", form_log=form_log, error_message="Неверный пароль")
+
+        # Авторизуем пользователя
+        login_user(user, remember=True)
+        return redirect('/index')
+
+    return render_template("login.html", form_log=form_log)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
 
 
 @app.route("/ribbon")

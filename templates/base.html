@@ -25,10 +25,12 @@
       </form>
     </div>
     <!-- AK -->
-    <div class="account">
-      <a href="register">Регистрация</a>
-      <a href="register">Вход</a>
-    </div>
+    {% if not current_user.is_authenticated %}
+      <div class="account">
+        <a href="register">Регистрация</a>
+        <a href="login">Вход</a>
+      </div>
+    {% endif %}
   </header>
 
   <main>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="reg-auth">
+    <div class="reg-container">
+        <div class="form-container" id="register-form-container">
+          <h2>Авторизация</h2>
+          <form id="register-form" action="{{ url_for('login') }}" method="POST">
+            {{ form_log.hidden_tag() }}
+
+            <label>{{ form_log.email.label }}</label>
+            {{ form_log.email(class="form-control") }}
+            {% for error in form_log.email.errors %}
+                <p class="alert alert-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+
+            <label>{{ form_log.password.label }}</label>
+            {{ form_log.password(class="form-control") }}
+            {% for error in form_log.password.errors %}
+                <p class="alert alert-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+
+            {{ form_log.submit(type="submit", class="btn btn-primary") }}
+          </form>
+          <p>Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
+        </div>
+    </div>
+  </main>
+{% endblock %}
