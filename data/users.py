@@ -26,7 +26,7 @@ class User(SqlAlchemyBase, UserMixin):
     notifications = orm.relationship("Notification", back_populates='user', cascade="all, delete-orphan")
 
     def __repr__(self):
-        return (f"{self.id} - {self.name} - {self.surname} - {self.username} - {self.about} - {self.avatar_url} "
+        return (f"{self.id} - {self.name} - {self.surname} - {self.username} - {self.about} - {self.binary_avatar} "
                 f"- {self.email} - {self.hashed_password} - {self.role} - {self.created_date}")
 
     def set_password(self, password):

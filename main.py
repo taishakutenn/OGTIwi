@@ -1,13 +1,11 @@
-from dbm import error
-
 from flask import Flask, render_template, url_for, redirect
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 
 from data import db_session
 from src.settings import SECRET_KEY  # Получаем секртеный ключ ответа сервера для flask-wtf
 from src.user_management import *
 from src.article_management import *
-from forms.user import LoginForm, RegisterForm # Импортируем классы форм
+from forms.user import LoginForm, RegisterForm  # Импортируем классы форм
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -80,10 +78,17 @@ def login():
     return render_template("login.html", form_log=form_log)
 
 
-@login_manager.user_loader
+@login_manager.user_loader # загружаем пользователя при запуске
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
+
+
+@app.route('/logout') # забываем пользователя при вызове
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 
 @app.route("/ribbon")
@@ -92,6 +97,18 @@ def ribbon():
     params["title"] = "Лента"
 
     return render_template("ribbon.html", **params)
+
+
+@app.route("/account")
+def account():
+    params = {}
+    params["title"] = "Личный кабинет"
+    params["nickname"] = current_user.username
+    params["email"] = current_user.email
+    params["created_date"] = current_user.created_date
+    params["last_articles"] = current_user.articles
+
+    return render_template("account.html", **params)
 
 
 if __name__ == '__main__':
