@@ -331,3 +331,111 @@ div.form-container a:hover {
 div.form-container.hidden {
   display: none;
 }
+
+
+
+/* ACCOUNT */
+main.account-page {
+  min-width: 45%;
+  max-width: fit-content;
+  margin: 0 auto;
+  padding: 1.5%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+section {
+  background-color: #223852;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+}
+h1.account-name, h2.h2 {
+  color: rgb(223, 239, 255);
+  text-align: center;
+}
+h2.h2 {
+  margin-bottom: 15px;
+}
+.info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.info-block p {
+  font-size: 16px;
+  color: rgb(180, 198, 214);
+}
+.account-page button {
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 15px;
+}
+.edit-profile-btn {
+  background-color: #2a4564;
+  color: white;
+}
+.logout-btn {
+  background-color: #ff4d4d;
+  color: white;
+}
+button:hover {
+  opacity: 0.9;
+}
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.activity-list li {
+  color: #f9f9f9;
+  text-decoration: none;
+}
+.articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.article-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+.article-item h3 {
+  margin: 0 0 10px;
+  color: #2a4564;
+}
+.article-item p {
+  margin: 0 0 10px;
+  color: #555;
+}
+.read-more:hover {
+  text-decoration: underline;
+}
+.user-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.user-avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2a4564;
+  margin-bottom: 10px; 
+}
+.upload-btn {
+  padding: 8px 16px;
+  background-color: #2a4564;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.upload-btn:hover {
+  opacity: 0.9;
+}

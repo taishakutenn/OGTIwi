@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="CSS/base.css">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="LOGO.png" alt="logo.net">
+    </div>
+    <nav>
+      <a href="base.html">Главная</a>
+      <a href="ribbon.html">Лента</a>
+      <a href="">Настройки</a>
+    </nav>
+
+    <!-- ПОИСК -->
+    <div class="search_block">
+      <form>
+        <input type="text" placeholder="Поиск">
+        <button type="submit">Найти</button>
+      </form>
+    </div>
+    <!-- AKKKKK -->
+    <div class="account">
+      <a href="">Регистрация</a>
+      <a href="">Вход</a>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <section class="profile-info">
+      <h1 class="account-name">Профиль пользователя</h1>
+      <div class="info-block">
+        <!-- Фото -->
+        <div class="user-avatar">
+          <img src="avatar.png" alt="avatar" id="avatar-preview">
+          <label for="avatar-upload" class="upload-btn">Изменить фото</label>
+          <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+        </div>
+        <p><strong>Имя:</strong> Ванька</p>
+        <p><strong>Email:</strong> ivan@example.com</p>
+        <p><strong>Дата регистрации:</strong> 01.02.20222</p>
+        <button class="edit-profile-btn">Редактировать профиль</button>
+        <button class="logout-btn">Выйти</button>
+      </div>
+    </section>
+
+    <!-- Последняя активность -->
+    <section class="user-activity">
+      <h2 class="h2">Последняя активность</h2>
+      <ul class="activity-list">
+        <li>Создана статья</li>
+        <li>Добавлен тег "jk"</li>
+      </ul>
+    </section>
+
+    <!-- Список последних статей -->
+    <section class="user-articles">
+      <h2 class="h2">Мои статьи</h2>
+      <div class="articles-list">
+        <article class="article-item">
+          <h3>Статья 1</h3>
+          <p>Краткое описание статьи 1</p>
+          <a href="#" class="read-more">Читать далее</a>
+        </article>
+        <article class="article-item">
+          <h3>Статья 2</h3>
+          <p>Краткое описание статьи 2</p>
+          <a href="#" class="read-more">Читать далее</a>
+        </article>
+        <article class="article-item">
+          <h3>Статья 3</h3>
+          <p>Краткое описание статьи 3</p>
+          <a href="#" class="read-more">Читать далее</a>
+        </article>
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const avatarUpload = document.getElementById('avatar-upload');
+        const avatarPreview = document.getElementById('avatar-preview');
+
+        // Обработчик для загрузки фото
+        avatarUpload.addEventListener('change', (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              avatarPreview.src = e.target.result; // Отображаем загруженное фото
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      });
+    </script>
+  </main>
+</body>
+</html>
