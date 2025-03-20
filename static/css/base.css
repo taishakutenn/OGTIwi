@@ -366,16 +366,18 @@ h2.h2 {
   font-size: 16px;
   color: rgb(180, 198, 214);
 }
-.account-page button {
+.account-page form button {
   padding: 10px;
   border-radius: 4px;
   font-size: 15px;
 }
 .edit-profile-btn {
+  width: 100%;
   background-color: #2a4564;
   color: white;
 }
-.logout-btn {
+.logout-btn.btn {
+  width: 100%;
   background-color: #ff4d4d;
   color: white;
 }

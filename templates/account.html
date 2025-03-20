@@ -7,16 +7,18 @@
       <div class="info-block">
         <!-- Фото -->
         <div class="user-avatar">
-          <img src="avatar.png" alt="avatar" id="avatar-preview">
+          <img src="static\images\stock.png" alt="avatar" id="avatar-preview">
           <label for="avatar-upload" class="upload-btn">Изменить фото</label>
           <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
         </div>
         <p><strong>Имя:</strong> {{ nickname }}</p>
         <p><strong>Email:</strong> {{ email }}</p>
         <p><strong>Дата регистрации:</strong> {{ created_date }}</p>
-        <button class="edit-profile-btn">Редактировать профиль</button>
+        <form action="edit-profile">
+          <button class="edit-profile-btn">Редактировать профиль</button>
+        </form>
         <form action="logout">
-          <button class="logout-btn" type="submit">Выйти</button>
+          <button class="logout-btn btn" type="submit">Выйти</button>
         </form>
       </div>
     </section>

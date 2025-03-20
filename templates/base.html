@@ -31,6 +31,12 @@
         <a href="login">Вход</a>
       </div>
     {% endif %}
+    {% if current_user.is_authenticated %}
+    <div class="account">
+      <img src="static\images\stock.png" alt="avatar.net">
+      <a href="account.html">Джон Константин</a>
+    </div>
+    {% endif %}
   </header>
 
   <main>
