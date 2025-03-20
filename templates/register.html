@@ -47,6 +47,7 @@
 
           {{ form_reg.submit(type="submit", class="btn btn-primary") }}
         </form>
+          <p> {{ error_message }} </p>
         <p>Уже есть аккаунт? <a href="{{ url_for('login') }}" id="login-link">Войти</a></p>
       </div>
     </div>

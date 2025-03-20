@@ -44,12 +44,11 @@ def register():
         try:
             create_user(
                 form_reg.name.data,
-                "avatarurl",
                 form_reg.email.data,
                 form_reg.password.data,
                 "user"
             )
-            return redirect('/index')
+            return redirect('/login')
         except ValueError as e:
             params["error_message"] = str(e)
             return render_template("register.html", **params)
@@ -95,6 +94,7 @@ def logout():
 def ribbon():
     params = {}
     params["title"] = "Лента"
+    params["articles"] = get_articles()
 
     return render_template("ribbon.html", **params)
 
@@ -108,7 +108,23 @@ def account():
     params["created_date"] = current_user.created_date
     params["last_articles"] = current_user.articles
 
+    if current_user:
+        return redirect("/register")
+
     return render_template("account.html", **params)
+
+
+@app.route("/article/<int:article_id>")
+def article(article_id):
+    article = get_article(article_id)
+
+    if not article:
+        return "Статья не найдена", 404
+
+    params = {"article": article,
+              "title": article.title}
+
+    return render_template("article.html", **params)
 
 
 if __name__ == '__main__':

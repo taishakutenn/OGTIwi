@@ -1,6 +1,7 @@
 import os
 
 from sqlalchemy import desc
+from sqlalchemy.orm import joinedload
 
 from data import db_session
 from data.articles import Article
@@ -36,3 +37,17 @@ def get_last_articles():
         ]
 
         return articles_list
+
+
+def get_articles():
+    with db_session.create_session() as db_sess:
+        articles = db_sess.query(Article).all()
+
+        return articles
+
+
+def get_article(number_article):
+    with db_session.create_session() as db_sess:
+        articles = db_sess.query(Article).options(joinedload(Article.user)).filter(Article.id == number_article).first()
+
+        return articles

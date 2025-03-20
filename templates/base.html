@@ -34,7 +34,7 @@
     {% if current_user.is_authenticated %}
     <div class="account">
       <img src="static\images\stock.png" alt="avatar.net">
-      <a href="account.html">Джон Константин</a>
+      <a href="account"> {{ current_user.username }}</a>
     </div>
     {% endif %}
   </header>

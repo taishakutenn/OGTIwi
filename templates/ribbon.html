@@ -23,40 +23,15 @@
 
 		<!-- Статьи -->
 		<div class="articles-blocks">
-			<div class="article-block">
-				<div class="header">
-					<h1 class="title">Статья</h1>
-					<span class="date">2023-10-01</span>
+			{% for article in articles %}
+				<div class="article-block">
+					<div class="header">
+						<h1 class="title">{{ article.title }}</h1>
+						<span class="date">{{ article.created_date }}</span>
+					</div>
+					<div class="main-text">{{ article.preview }}</div>
 				</div>
-				<pre class="main-text">Эта статья о том как несли мужика</pre>
-			</div>
-			<div class="article-block">
-				<div class="header">
-					<h1 class="title">Древо яда</h1>
-					<span class="date">2023-09-25</span>
-				</div>
-				<pre class="main-text">
-					В ярость друг меня привёл —
-					Гнев излил я, гнев прошёл.
-					Враг обиду мне нанёс —
-					Я молчал, но гнев мой рос.
-					
-					Я таил его в тиши
-					В глубине своей души,
-					То слезами поливал,
-					То улыбкой согревал.
-					
-					Рос он ночью, рос он днём.
-					Зрело яблочко на нём,
-					Яда сладкого полно.
-					Знал мой недруг, чье оно.
-					
-					Темной ночью в тишине
-					Он прокрался в сад ко мне
-					И остался недвижим,
-					Ядом скованный моим. 
-				</pre>
-			</div>
+			{% endfor %}
 		</div>
 	</main>
 	
