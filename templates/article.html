@@ -8,14 +8,18 @@
           <h1 class="title">{{ article.title }}</h1>
           <span class="date">{{ article.created_date }}</span>
         </div>
-        <div class="main-text">
-            {{ article.article_text }}
-        </div>
-        <!-- Место для автора -->
+        <div class="main-text">{{ article.preview }}</div>
+        <!-- Место для автора и тегов -->
         <div class="author">
           <h1>
             <a href="author_page.html">{{ article.user.username }}</a>
           </h1>
+        </div>
+        <div class="tags-list-footer">
+          <p>tag</p>
+          <p>tag</p>
+          <p>tag</p>
+          <p>tag</p>
         </div>
       </div>
     </div>
