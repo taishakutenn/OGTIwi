@@ -1,5 +1,7 @@
 import os
 
+from sqlalchemy.orm import joinedload
+
 from data import db_session
 from data.users import User
 from werkzeug.security import generate_password_hash
@@ -25,18 +27,25 @@ def create_user(username, email, password, role, binary_avatar=None, about=None)
         db_sess.commit()
 
 
-def get_user_info(id=None, email=None):
+def get_user_info(id=None, email=None, username=None):
+
+    if not (id or email or username):
+        raise ValueError("Необходимо передать хотя бы один из параметров: id, email или username")
+
     with db_session.create_session() as db_sess:
-        if not (id or email):
-            raise ValueError("Необходимо передать хотя бы один из параметров: id или email")
+        query = db_sess.query(User)
 
         if id:
-            user_info = db_sess.query(User).filter_by(id=id).first()
-        else:
-            user_info = db_sess.query(User).filter_by(email=email).first()
+            query = query.filter_by(id=id)
+        if email:
+            query = query.filter_by(email=email)
+        if username:
+            query = query.filter_by(username=username)
+
+        user_info = query.options(joinedload(User.articles)).first()
 
         if not user_info:
-            raise ValueError("Такого пользователя не существует")
+            raise ValueError("Пользователь не найден")
 
         return user_info
 

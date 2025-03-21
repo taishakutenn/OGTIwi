@@ -122,11 +122,30 @@ def account():
 
 @app.route("/account/<string:username>")
 def foreign_account(username):
+    try: # Проверяем, существует ли пользователь с таким никнеймом
+        foreign_user = get_user_info(username=username)
 
-    params = {}
-    params["title"] = username
+        if foreign_user.id == current_user.id:
+            return redirect("/account") # Если попытались по этому пути найти свой профиль и залогинены - отправляем на свой аккаунт
 
-    return render_template("account.html")
+        params = {}
+        params["my_profile"] = False
+        params["title"] = foreign_user.username
+        params["nickname"] = foreign_user.username
+        params["email"] = foreign_user.email
+        params["created_date"] = foreign_user.created_date
+        params["last_articles"] = foreign_user.articles
+
+        if current_user.name:
+            params["name"] = foreign_user.name
+        if current_user.surname:
+            params["surname"] = foreign_user.surname
+
+        return render_template("account.html", **params)
+
+    except Exception as e:
+        print(e)
+        return "Пользователь не найден", 404
 
 @app.route("/article/<int:article_id>")
 def article(article_id):
