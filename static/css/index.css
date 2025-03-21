@@ -2,6 +2,7 @@
 
 body{
   background-color: rgb(28, 47, 68);
+  padding: 0;
 }
 
 * {
@@ -52,7 +53,7 @@ header .logo {
 }
 
 header nav {
-  flex-basis: 20%;
+  flex-basis: 25%;
 }
 header nav a {
   margin-right: 10%;

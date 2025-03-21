@@ -12,8 +12,8 @@
       <img src="{{ url_for('static', filename='images/LOGO.png')}}" alt="logo.net">
     </div>
     <nav>
-      <a href="index">Главная</a>
-      <a href="ribbon">Лента</a>
+      <a href="/index">Главная</a>
+      <a href="/ribbon">Лента</a>
       <a href="">Настройки</a>
     </nav>
 
@@ -27,14 +27,14 @@
     <!-- AK -->
     {% if not current_user.is_authenticated %}
       <div class="account">
-        <a href="register">Регистрация</a>
-        <a href="login">Вход</a>
+        <a href="/register">Регистрация</a>
+        <a href="/login">Вход</a>
       </div>
     {% endif %}
     {% if current_user.is_authenticated %}
     <div class="account">
       <img src="static\images\stock.png" alt="avatar.net">
-      <a href="account"> {{ current_user.username }}</a>
+      <a href="/account"> {{ current_user.username }}</a>
     </div>
     {% endif %}
   </header>

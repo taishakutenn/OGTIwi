@@ -102,17 +102,31 @@ def ribbon():
 @app.route("/account")
 def account():
     params = {}
+    params["my_profile"] = True
     params["title"] = "Личный кабинет"
     params["nickname"] = current_user.username
     params["email"] = current_user.email
     params["created_date"] = current_user.created_date
     params["last_articles"] = current_user.articles
 
-    if current_user:
+    if current_user.name:
+        params["name"] = current_user.name
+    if current_user.surname:
+        params["surname"] = current_user.surname
+
+    if not current_user:
         return redirect("/register")
 
     return render_template("account.html", **params)
 
+
+@app.route("/account/<string:username>")
+def foreign_account(username):
+
+    params = {}
+    params["title"] = username
+
+    return render_template("account.html")
 
 @app.route("/article/<int:article_id>")
 def article(article_id):

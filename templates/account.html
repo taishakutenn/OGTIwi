@@ -8,18 +8,30 @@
         <!-- Фото -->
         <div class="user-avatar">
           <img src="static\images\stock.png" alt="avatar" id="avatar-preview">
-          <label for="avatar-upload" class="upload-btn">Изменить фото</label>
-          <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+          {% if my_profile %}
+            <form action="">
+              <label for="avatar-upload" class="upload-btn">Изменить фото</label>
+              <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+            </form>
+          {% endif %}
         </div>
-        <p><strong>Имя:</strong> {{ nickname }}</p>
+        <p><strong>Nickname:</strong> {{ nickname }}</p>
         <p><strong>Email:</strong> {{ email }}</p>
+        {% if name %}
+          <p><strong>Имя:</strong> {{ name }}</p>
+        {% endif %}
+        {% if surname %}
+          <p><strong>Фамилия:</strong> {{ surname }}</p>
+        {% endif %}
         <p><strong>Дата регистрации:</strong> {{ created_date }}</p>
-        <form action="edit-profile">
-          <button class="edit-profile-btn">Редактировать профиль</button>
-        </form>
-        <form action="logout">
-          <button class="logout-btn btn" type="submit">Выйти</button>
-        </form>
+        {% if my_profile %}
+          <form action="edit-profile">
+            <button class="edit-profile-btn">Редактировать профиль</button>
+          </form>
+          <form action="logout">
+            <button class="logout-btn btn" type="submit">Выйти</button>
+          </form>
+        {% endif %}
       </div>
     </section>
 

@@ -205,8 +205,13 @@ div.article-block {
 }
 div.article-block .header {
   display: flex; 
-  align-items: center; 
   justify-content: space-between; 
+}
+div.article-block .header h1 {
+  flex-basis: 70%;
+}
+div.article-block .header span {
+  align-self: self-end;
 }
 div.article-block h1 {
   font-size: 26px;
@@ -223,10 +228,10 @@ div.article-block .date {
   border-bottom: 1px solid #ccc;
   border-radius: 0;
 }
-div.article-block pre {
-  margin-top: 10px;
-  line-height: 2;
-  font-size: 16px;
+div.article-block div {
+  margin-top: 13px;
+  line-height: 1.5;
+  font-size: 100%;
 }
 
 
@@ -253,7 +258,7 @@ div.article-block.article-main h1 {
 div.article-block.article-main .author h1 {
   border-top: 1px solid #ccc;
   border-bottom: none;
-  margin-top: 10px;
+  margin-top: 1.5%;
 }
 div.article-block.article-main .main-text {
   line-height: 1.4;
