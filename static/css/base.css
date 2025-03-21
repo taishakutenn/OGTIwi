@@ -205,8 +205,13 @@ div.article-block {
 }
 div.article-block .header {
   display: flex; 
-  align-items: center; 
   justify-content: space-between; 
+}
+div.article-block .header h1 {
+  flex-basis: 70%;
+}
+div.article-block .header span {
+  align-self: self-end;
 }
 div.article-block h1 {
   font-size: 26px;
@@ -223,11 +228,18 @@ div.article-block .date {
   border-bottom: 1px solid #ccc;
   border-radius: 0;
 }
-div.article-block pre {
-  margin-top: 10px;
-  line-height: 2;
-  font-size: 16px;
+div.article-block div {
+  margin-top: 13px;
+  line-height: 1.5;
+  font-size: 100%;
 }
+div.tags-list-footer {
+  display: flex;
+  gap: 2%;
+  border-top: 1px solid #ccc;
+  border-radius: 0;
+}
+
 
 
 
@@ -253,7 +265,7 @@ div.article-block.article-main h1 {
 div.article-block.article-main .author h1 {
   border-top: 1px solid #ccc;
   border-bottom: none;
-  margin-top: 10px;
+  margin-top: 1.5%;
 }
 div.article-block.article-main .main-text {
   line-height: 1.4;
@@ -265,7 +277,7 @@ div.article-block.article-main .main-text {
 
 
 
-/* SingIn SingUp */
+/* SingIn SingUp PAGE */
 main.reg-auth {
   display: flex;
   justify-content: center;
@@ -366,16 +378,18 @@ h2.h2 {
   font-size: 16px;
   color: rgb(180, 198, 214);
 }
-.account-page button {
+.account-page form button {
   padding: 10px;
   border-radius: 4px;
   font-size: 15px;
 }
 .edit-profile-btn {
+  width: 100%;
   background-color: #2a4564;
   color: white;
 }
-.logout-btn {
+.logout-btn.btn {
+  width: 100%;
   background-color: #ff4d4d;
   color: white;
 }
@@ -438,4 +452,98 @@ button:hover {
 }
 .upload-btn:hover {
   opacity: 0.9;
+}
+
+
+
+
+/* ARTICLE EDIT */
+main.edit-article-page {
+  max-width: 65%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #223852;
+}
+main.edit-article-page h1 {
+  text-align: center;
+  color: rgb(223, 239, 255);
+  font-size: 150%;
+  margin-bottom: 1%;
+}
+
+main.edit-article-page .toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+main.edit-article-page .toolbar button {
+  padding: 8px 12px;
+  background-color: rgb(83, 159, 182);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+main.edit-article-page .toolbar button:hover {
+  opacity: 0.9;
+}
+
+main.edit-article-page .form-section {
+  margin-bottom: 20px;
+}
+
+main.edit-article-page label {
+  display: block;
+  margin-bottom: 5px;
+  color: rgb(192, 219, 247);
+  font-size: 120%;
+}
+
+main.edit-article-page input[type="text"],
+main.edit-article-page textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+  color: rgb(223, 239, 255);
+}
+main.edit-article-page button {
+  padding: 10px 15px;
+  background-color: rgb(83, 159, 182);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 1%;
+}
+main.edit-article-page button:hover {
+  opacity: 0.9;
+}
+
+main.edit-article-page #existing-tags-list,
+main.edit-article-page #new-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+main.edit-article-page #existing-tags-list li,
+main.edit-article-page #new-tags-list li {
+  background-color: #223852;
+  padding: 5px 10px;
+}
+
+main.edit-article-page .action-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+main.edit-article-page .action-buttons #cancel-btn {
+  background-color: #ff4d4d;
+}
+main.edit-article-page .action-buttons #save-article-btn {
+  background-color: rgb(48, 155, 21)
 }
