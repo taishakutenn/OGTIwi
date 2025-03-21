@@ -233,6 +233,13 @@ div.article-block div {
   line-height: 1.5;
   font-size: 100%;
 }
+div.tags-list-footer {
+  display: flex;
+  gap: 2%;
+  border-top: 1px solid #ccc;
+  border-radius: 0;
+}
+
 
 
 
@@ -270,7 +277,7 @@ div.article-block.article-main .main-text {
 
 
 
-/* SingIn SingUp */
+/* SingIn SingUp PAGE */
 main.reg-auth {
   display: flex;
   justify-content: center;
