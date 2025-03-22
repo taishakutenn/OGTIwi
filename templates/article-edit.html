@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="CSS/base.css">
-  <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
   <main class="edit-article-page">
     <h1>Создание статьи</h1>
     <!-- Название -->
@@ -51,5 +45,4 @@
       <button id="cancel-btn">Отмена</button>
     </form>
   </main>
-</body>
-</html>
+{% endblock %}

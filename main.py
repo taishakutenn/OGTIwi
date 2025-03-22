@@ -147,6 +147,7 @@ def foreign_account(username):
         print(e)
         return "Пользователь не найден", 404
 
+
 @app.route("/article/<int:article_id>")
 def article(article_id):
     article = get_article(article_id)
@@ -158,6 +159,14 @@ def article(article_id):
               "title": article.title}
 
     return render_template("article.html", **params)
+
+
+@app.route("/article_edit")
+def article_edit():
+    params = {}
+    params["title"] = "Редактирование статьи"
+
+    return render_template("article-edit.html", **params)
 
 
 if __name__ == '__main__':
