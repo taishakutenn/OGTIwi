@@ -1,7 +1,11 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, request
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 
 from data import db_session
+from data.db_session import create_session
+from data.news_to_tags import NewsToTags
+from data.tags import Tag
+from forms.article import CreateArticle
 from src.settings import SECRET_KEY  # Получаем секртеный ключ ответа сервера для flask-wtf
 from src.user_management import *
 from src.article_management import *
@@ -92,9 +96,18 @@ def logout():
 
 @app.route("/ribbon")
 def ribbon():
+    page = request.args.get('page', default=1, type=int)
+
+    articles_per_page = 6 # Статей на странице
+    offset = (page - 1) * articles_per_page # Сколько записей нужно пропустить в бд для данной страницы
+
+    db_sess = db_session.create_session()
+    # По умолчанию получаем последние 6 статей
+    articles = db_sess.query(Article).order_by(Article.id.desc()).offset(offset).limit(articles_per_page).all()
+
     params = {}
     params["title"] = "Лента"
-    params["articles"] = get_articles()
+    params["articles"] = articles
 
     return render_template("ribbon.html", **params)
 
@@ -161,12 +174,75 @@ def article(article_id):
     return render_template("article.html", **params)
 
 
-@app.route("/article_edit")
-def article_edit():
-    params = {}
-    params["title"] = "Редактирование статьи"
+@app.route('/create_article', methods=['GET', 'POST'])
+def create_article():
+    if not current_user.is_authenticated:  # Если пользователь не авторизован
+        return redirect("/login")
 
-    return render_template("article-edit.html", **params)
+    form = CreateArticle()
+
+    params = {
+        "title": "Создание статьи",
+        "form": form
+    }
+
+    db_sess = db_session.create_session()
+    existing_tags_list = db_sess.query(Tag).all()
+
+    # Добавляем чекбоксы для существующих тегов
+    for tag in existing_tags_list:
+        form.existing_tags.append_entry()  # Добавляем новое поле
+        form.existing_tags[-1].label.text = tag.name  # Устанавливаем метку для чекбокса
+
+    if form.validate_on_submit():
+        try:
+            title = form.title.data
+            preview = form.preview.data
+            content = form.content.data
+
+            # Получаем выбранные теги
+            selected_tags = [
+                existing_tags_list[i].name for i, checkbox in enumerate(form.existing_tags)
+                if checkbox.data
+            ]
+
+            # Получаем новые теги
+            new_tags = [tag.data.strip() for tag in form.new_tags if tag.data.strip()]
+
+            # Создаём статью
+            article = Article(
+                author_id=current_user.id,
+                title=title,
+                preview=preview,
+                article_text=content
+            )
+            db_sess.add(article)
+            db_sess.commit()  # Сохраняем статью, чтобы получить её id
+
+            # Добавляем новые теги
+            existing_tag_names = {tag.name for tag in db_sess.query(Tag).all()}  # Множество существующих тегов
+            for tag_name in new_tags:
+                if tag_name and tag_name not in existing_tag_names:
+                    tag = Tag(name=tag_name)
+                    db_sess.add(tag)
+                    existing_tag_names.add(tag_name)  # Обновляем множество
+            db_sess.commit()  # Сохраняем новые теги
+
+            # Создаём связи между статьёй и тегами
+            for tag_name in selected_tags + new_tags:  # Объединяем выбранные и новые теги
+                tag = db_sess.query(Tag).filter(Tag.name == tag_name).first()
+                if tag:
+                    news_to_tags = NewsToTags(article_id=article.id, tag_id=tag.id)
+                    db_sess.add(news_to_tags)
+
+            db_sess.commit()  # Коммитим все изменения
+            return redirect(f"/article/{article.id}")
+
+        except Exception as e:
+            db_sess.rollback()  # Откатываем изменения в случае ошибки
+            return render_template('create_article.html', error="Произошла ошибка при создании статьи.", **params)
+
+    return render_template('create_article.html', **params)
 
 
 if __name__ == '__main__':

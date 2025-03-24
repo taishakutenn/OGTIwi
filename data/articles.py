@@ -14,10 +14,14 @@ class Article(SqlAlchemyBase):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)  # Дата создания
     updated_date = sqlalchemy.Column(sqlalchemy.DateTime, onupdate=datetime.datetime.now, nullable=True)  # Дата обновления
     article_text = sqlalchemy.Column(sqlalchemy.String, nullable=False) # Текст статьи
-    tags = sqlalchemy.Column(sqlalchemy.String, nullable=True)  # Теги для фильтрации
     views = sqlalchemy.Column(sqlalchemy.Integer, default=0, index=True)  # Количество просмотров
 
     user = orm.relationship('User')
+
+    tags = orm.relationship(
+        "NewsToTags",
+        back_populates="article"
+    )
 
 
     def __repr__(self):

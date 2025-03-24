@@ -1,1 +1,1 @@
-from . import users, articles, notifications, demands
+from . import users, articles, notifications, demands, tags, news_to_tags

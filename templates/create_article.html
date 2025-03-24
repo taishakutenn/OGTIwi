@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="edit-article-page">
+    <h1>Создание статьи</h1>
+
+    <!-- Форма -->
+    <form method="POST" class="article-form" action="{{ url_for('create_article') }}">
+      {{ form.hidden_tag() }}
+
+      <!-- Название -->
+      <div class="form-section">
+        {{ form.title.label }}
+        {{ form.title(class="form-input", placeholder="Введите название статьи") }}
+        {% if form.title.errors %}
+          <ul class="error-messages">
+            {% for error in form.title.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <!-- Описание -->
+      <div class="form-section">
+        {{ form.preview.label }}
+        {{ form.preview(class="form-textarea", rows="4", placeholder="Введите краткое описание статьи") }}
+        {% if form.preview.errors %}
+          <ul class="error-messages">
+            {% for error in form.preview.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <!-- Статья -->
+      <div class="form-section">
+        {{ form.content.label }}
+        {{ form.content(class="form-textarea", rows="10", placeholder="Введите текст статьи") }}
+        {% if form.content.errors %}
+          <ul class="error-messages">
+            {% for error in form.content.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <!-- Существующие теги -->
+      <div class="form-section">
+        <label>Существующие теги:</label>
+        <ul id="existing-tags-list">
+          {% for tag_field in form.existing_tags %}
+            <li>
+              {{ tag_field }} {{ tag_field.label }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Новые теги -->
+      <div class="form-section">
+        <label for="new-tag">Добавить новый тег:</label>
+        <input type="text" id="new-tag" placeholder="Введите новый тег">
+        <button type="button" id="add-tag-btn">Добавить тег</button>
+        <ul id="new-tags-list">
+          {% for tag_field in form.new_tags %}
+            <li>
+              {{ tag_field(class="form-input", placeholder="Введите новый тег") }}
+              {% if tag_field.errors %}
+                <ul class="error-messages">
+                  {% for error in tag_field.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Кнопки действий -->
+      <div class="action-buttons">
+        {{ form.submit(class="btn-save") }}
+        <button type="button" id="cancel-btn" class="btn-cancel">Отмена</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- JavaScript для динамического добавления тегов -->
+  <script>
+    document.getElementById('add-tag-btn').addEventListener('click', function () {
+      const newTagInput = document.createElement('input');
+      newTagInput.type = 'text';
+      newTagInput.name = 'new_tags-' + document.querySelectorAll('#new-tags-list input').length;
+      newTagInput.placeholder = 'Введите новый тег';
+      newTagInput.classList.add('form-input');
+
+      const listItem = document.createElement('li');
+      listItem.appendChild(newTagInput);
+
+      document.getElementById('new-tags-list').appendChild(listItem);
+    });
+  </script>
+{% endblock %}

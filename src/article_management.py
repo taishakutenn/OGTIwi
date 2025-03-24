@@ -6,13 +6,12 @@ from sqlalchemy.orm import joinedload
 from data import db_session
 from data.articles import Article
 
-def create_article(author_id, title, preview, tags, article_text):
+def create_article(author_id, title, preview, article_text):
     with db_session.create_session() as db_sess:
         new_article = Article(
             author_id=author_id,
             title=title,
             preview=preview,
-            tags=tags,
             article_text=article_text
         )
 
