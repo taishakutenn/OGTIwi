@@ -88,6 +88,68 @@
     </form>
   </main>
 
+  <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/translations/ru.js"></script>
+
+<script>
+  // Инициализация CKEditor
+  ClassicEditor
+    .create(document.querySelector('#article-content'), {
+      toolbar: [
+        // Базовые инструменты
+        'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
+        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+        'alignment', '|', 'link', 'unlink', '|',
+
+        // Списки и цитаты
+        'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent', '|',
+        'blockQuote', '|',
+
+        // Таблицы
+        'insertTable', '|',
+
+        // Изображения и медиа
+        'imageInsert', 'imageStyle', 'imageToolbar', 'imageResize', 'linkImage', '|',
+        'mediaEmbed', '|',
+
+        // Отмена действий
+        'undo', 'redo'
+      ],
+      table: {
+        contentToolbar: [
+          'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'
+        ]
+      },
+      language: 'ru' // Установка русского языка
+    })
+    .then(editor => {
+      console.log('CKEditor успешно загружен:', editor);
+      window.editor = editor; // Сохраняем экземпляр редактора для дальнейшего использования
+    })
+    .catch(error => {
+      console.error('Ошибка при инициализации CKEditor:', error);
+    });
+
+  // Обработчик кнопки "Сохранить статью"
+  document.getElementById('save-article-btn').addEventListener('click', function () {
+    const title = document.getElementById('article-title').value;
+    const description = document.getElementById('article-description').value;
+    const content = window.editor.getData(); // Получаем HTML-код из CKEditor
+
+    // Сбор выбранных тегов
+    const existingTags = Array.from(document.querySelectorAll('#existing-tags-list input[type="checkbox"]:checked'))
+      .map(checkbox => checkbox.value);
+
+    const newTags = Array.from(document.querySelectorAll('#new-tags-list li'))
+      .map(li => li.textContent);
+
+    const articleData = {
+      title,
+      description,
+      content,
+      tags: [...existingTags, ...newTags]
+    };
+  });
   <!-- JavaScript для динамического добавления тегов -->
   <script>
     document.getElementById('add-tag-btn').addEventListener('click', function () {
