@@ -2,7 +2,7 @@
 
 {% block content %}
   <main class="edit-article-page">
-    <h1>Создание статьи</h1>
+    <p class="title">Создание статьи</p>
 
     <!-- Форма -->
     <form method="POST" class="article-form" action="{{ url_for('create_article') }}">
@@ -37,7 +37,7 @@
       <!-- Статья -->
       <div class="form-section">
         {{ form.content.label }}
-        {{ form.content(class="form-textarea", rows="10", placeholder="Введите текст статьи") }}
+        <textarea id="article-content" name="content" class="form-textarea article-content" rows="10" placeholder="Введите содержимое статьи">{{ form.content.data if form.content.data else '' }}</textarea>
         {% if form.content.errors %}
           <ul class="error-messages">
             {% for error in form.content.errors %}
@@ -88,81 +88,29 @@
     </form>
   </main>
 
-  <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
-  <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/translations/ru.js"></script>
-
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/ru.js"></script>
 <script>
-  // Инициализация CKEditor
   ClassicEditor
     .create(document.querySelector('#article-content'), {
-      toolbar: [
-        // Базовые инструменты
-        'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
-        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-        'alignment', '|', 'link', 'unlink', '|',
-
-        // Списки и цитаты
-        'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent', '|',
-        'blockQuote', '|',
-
-        // Таблицы
-        'insertTable', '|',
-
-        // Изображения и медиа
-        'imageInsert', 'imageStyle', 'imageToolbar', 'imageResize', 'linkImage', '|',
-        'mediaEmbed', '|',
-
-        // Отмена действий
-        'undo', 'redo'
-      ],
-      table: {
-        contentToolbar: [
-          'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'
-        ]
-      },
-      language: 'ru' // Установка русского языка
+        language: 'ru', // Включаем русский язык
+        toolbar: [
+            'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'insertTable'
+        ],
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Обычный текст', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: 'h1', title: 'Заголовок 1', class: 'ck-heading_heading1' },
+                { model: 'heading2', view: 'h2', title: 'Заголовок 2', class: 'ck-heading_heading2' },
+                { model: 'heading3', view: 'h3', title: 'Заголовок 3', class: 'ck-heading_heading3' }
+            ]
+        }
     })
     .then(editor => {
-      console.log('CKEditor успешно загружен:', editor);
-      window.editor = editor; // Сохраняем экземпляр редактора для дальнейшего использования
+        console.log('Редактор инициализирован:', editor);
     })
     .catch(error => {
-      console.error('Ошибка при инициализации CKEditor:', error);
+        console.error('Ошибка инициализации CKEditor 5:', error);
     });
-
-  // Обработчик кнопки "Сохранить статью"
-  document.getElementById('save-article-btn').addEventListener('click', function () {
-    const title = document.getElementById('article-title').value;
-    const description = document.getElementById('article-description').value;
-    const content = window.editor.getData(); // Получаем HTML-код из CKEditor
-
-    // Сбор выбранных тегов
-    const existingTags = Array.from(document.querySelectorAll('#existing-tags-list input[type="checkbox"]:checked'))
-      .map(checkbox => checkbox.value);
-
-    const newTags = Array.from(document.querySelectorAll('#new-tags-list li'))
-      .map(li => li.textContent);
-
-    const articleData = {
-      title,
-      description,
-      content,
-      tags: [...existingTags, ...newTags]
-    };
-  });
-  <!-- JavaScript для динамического добавления тегов -->
-  <script>
-    document.getElementById('add-tag-btn').addEventListener('click', function () {
-      const newTagInput = document.createElement('input');
-      newTagInput.type = 'text';
-      newTagInput.name = 'new_tags-' + document.querySelectorAll('#new-tags-list input').length;
-      newTagInput.placeholder = 'Введите новый тег';
-      newTagInput.classList.add('form-input');
-
-      const listItem = document.createElement('li');
-      listItem.appendChild(newTagInput);
-
-      document.getElementById('new-tags-list').appendChild(listItem);
-    });
-  </script>
+</script>
 {% endblock %}
