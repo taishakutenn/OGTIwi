@@ -464,7 +464,7 @@ main.edit-article-page {
   padding: 20px;
   background-color: #223852;
 }
-main.edit-article-page h1 {
+main.edit-article-page p.title {
   text-align: center;
   color: rgb(223, 239, 255);
   font-size: 150%;
@@ -545,5 +545,49 @@ main.edit-article-page .action-buttons #cancel-btn {
   background-color: #ff4d4d;
 }
 main.edit-article-page .action-buttons #save-article-btn {
+<<<<<<< Updated upstream
   background-color: rgb(48, 155, 21)
+=======
+  background-color: rgb(48, 155, 21); /* Нет совпадения с переменной */
+}
+
+
+/* Изменение стиля контейнера CKEditor */
+.ck-content {
+  min-height: 110px;
+  padding: 15px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+main.edit-article-page h1 {
+  color: black;
+  font-size: 26px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+main.edit-article-page h2{
+  color: black;
+  font-size: 22px;
+}
+main.edit-article-page h3 {
+  color: black;
+  font-size: 18px;
+}
+main.edit-article-page p {
+  color: black;
+  font-size: 16px;
+}
+main.edit-article-page ul {
+  padding-left: 20px;
+  margin: 10px 0;
+  list-style:circle;
+}
+main.edit-article-page ol {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+main.edit-article-page li {
+  margin: 5px 0;
+>>>>>>> Stashed changes
 }
