@@ -33,7 +33,11 @@
     {% endif %}
     {% if current_user.is_authenticated %}
     <div class="account">
-      <img src="static\images\stock.png" alt="avatar.net">
+      {% if user_avatar %}
+    <img src="data:image/jpeg;base64,{{ user_avatar }}" alt="avatar.net" style="width: 50px; height: 50px; border-radius: 50%;">
+      {% else %}
+    <img src="{{ url_for('static', filename='images/stock.png') }}" alt="avatar.net" style="width: 50px; height: 50px; border-radius: 50%;">
+      {% endif %}
       <a href="/account"> {{ current_user.username }}</a>
     </div>
     {% endif %}

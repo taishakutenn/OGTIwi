@@ -1,4 +1,6 @@
-from flask import Flask, render_template, url_for, redirect, request
+import base64
+
+from flask import Flask, render_template, url_for, redirect, request, jsonify
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 
 from data import db_session
@@ -133,6 +135,45 @@ def account():
     return render_template("account.html", **params)
 
 
+@app.route("/upload_avatar", methods=["POST"])
+def upload_avatar():
+    if 'avatar' not in request.files:
+        return jsonify({'error': 'Файл не найден'}), 400
+
+    file = request.files['avatar']
+    if file.filename == '':
+        return jsonify({'error': 'Файл не выбран'}), 400
+
+    # Читаем бинарные данные файла
+    binary_data = file.read()
+
+    # Преобразуем бинарные данные в Base64
+    base64_data = base64.b64encode(binary_data).decode('utf-8')
+
+    # Создаём ссесию
+    db_sess = db_session.create_session()
+
+    user = db_sess.query(User).filter(User.id == current_user.id).first() # Берём нужного пользователя
+    # Загружаем аватар в базу данных
+    user.binary_avatar = base64_data
+    db_sess.commit()
+
+    return jsonify({'message': 'Файл успешно загружен'})
+
+
+@app.context_processor
+def inject_user_avatar():
+    """
+    Добавляет данные об аватаре пользователя в контекст всех шаблонов.
+    """
+    if current_user.is_authenticated:
+        user_avatar = current_user.binary_avatar  # Получаем Base64 строку изображения
+    else:
+        user_avatar = None  # Если пользователь не авторизован
+
+    return dict(user_avatar=user_avatar)
+
+
 @app.route("/account/<string:username>")
 def foreign_account(username):
     try: # Проверяем, существует ли пользователь с таким никнеймом
@@ -148,6 +189,9 @@ def foreign_account(username):
         params["email"] = foreign_user.email
         params["created_date"] = foreign_user.created_date
         params["last_articles"] = foreign_user.articles
+
+        foreign_avatar = foreign_user.binary_avatar
+        params["foreign_avatar"] = foreign_avatar
 
         if current_user.name:
             params["name"] = foreign_user.name

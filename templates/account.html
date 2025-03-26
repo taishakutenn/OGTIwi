@@ -7,7 +7,19 @@
       <div class="info-block">
         <!-- Фото -->
         <div class="user-avatar">
-          <img src="static\images\stock.png" alt="avatar" id="avatar-preview">
+          {% if my_profile %}
+            {% if user_avatar %}
+              <img src="data:image/jpeg;base64,{{ user_avatar }}" alt="avatar.net">
+            {% else %}
+              <img src="{{ url_for('static', filename='images/stock.png') }}" alt="avatar.net">
+            {% endif %}
+          {% else %}
+            {% if foreign_avatar %}
+              <img src="data:image/jpeg;base64,{{ foreign_avatar }}" alt="avatar.net">
+            {% else %}
+              <img src="{{ url_for('static', filename='images/stock.png') }}" alt="avatar.net">
+            {% endif %}
+          {% endif %}
           {% if my_profile %}
             <form action="">
               <label for="avatar-upload" class="upload-btn">Изменить фото</label>
@@ -58,20 +70,46 @@
       </div>
     </section>
 
-    <script>
+<script>
       document.addEventListener('DOMContentLoaded', () => {
         const avatarUpload = document.getElementById('avatar-upload');
         const avatarPreview = document.getElementById('avatar-preview');
 
-        // Обработчик для загрузки фото
+        // Обработчик для загрузки фото и автоматической отправки
         avatarUpload.addEventListener('change', (event) => {
           const file = event.target.files[0];
           if (file) {
             const reader = new FileReader();
+
+            // Показываем предварительный просмотр
             reader.onload = (e) => {
-              avatarPreview.src = e.target.result; // Отображаем загруженное фото
+              avatarPreview.src = e.target.result;
             };
+
             reader.readAsDataURL(file);
+
+            // Создаем FormData и отправляем файл на сервер
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            fetch('/upload_avatar', {
+              method: 'POST',
+              body: formData,
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+                return response.json(); // Предполагаем, что сервер возвращает JSON
+              })
+              .then((data) => {
+                console.log('Фото успешно загружено:', data);
+                alert('Фото успешно загружено!');
+              })
+              .catch((error) => {
+                console.error('Ошибка при загрузке фото:', error);
+                alert('Произошла ошибка при загрузке фото.');
+              });
           }
         });
       });
