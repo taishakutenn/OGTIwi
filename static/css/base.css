@@ -1,33 +1,35 @@
 @import url(index.css);
 
+
 main {
   display: block;
   margin-left: 5%;
   margin-right: 5%;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: var(--background-clr-2);
+  background-color: rgb(42, 69, 100);
   border-radius: 20px;
 }
 main * {
   border-radius: 20px;
 }
 
+
 /* BASE INFO */
 .base_info {
   margin: 4%;
-  border: 7px solid var(--background-clr);
+  border: 7px solid rgb(28, 47, 68);
 }
 .base_info * {
-  color: var(--text-color);
+  color: rgb(192, 219, 247);
 }
-.base_info h1 {
+.base_info h1{
   font-size: 160%;
   line-height: 1.8;
   text-align: center;
 }
 .base_info a:hover {
-  color: var(--a-hover);
+  color: rgb(255, 255, 255);
   text-decoration: underline;
 }
 .base_info p {
@@ -35,23 +37,24 @@ main * {
   line-height: 1.6;
 }
 
-/* LAST */
+
+/*LAST*/
 .last {
   margin: 4%;
-  border: 7px solid var(--background-clr);
+  border: 7px solid rgb(28, 47, 68);
 }
 .last * {
-  color: var(--text-color);
+  color: rgb(192, 219, 247);
 }
 .last h2 {
   font-size: 160%;
   margin-bottom: 2%;
   margin-top: 1%;
   text-align: center;
-  color: var(--a-hover);
+  color: rgb(255, 255, 255)
 }
 
-/* SLIDER */
+/*slider*/
 .slider-container {
   position: relative;
   width: 100%;
@@ -67,19 +70,19 @@ main * {
   margin: 0 10px;
   margin-bottom: 10px;
   padding: 15px;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  background-color: #223852; /* Нет совпадения с переменной */
+  border: 2px solid #ccc;
+  border-radius: 8px; 
+  background-color: #223852; 
   text-align: center;
   word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
+  overflow-wrap: break-word; 
+  white-space: normal; 
 }
 .slide h3 {
   font-size: 140%;
   word-wrap: break-word;
   margin-bottom: 3.5%;
-  color: rgb(223, 239, 255); /* Нет совпадения с переменной */
+  color: rgb(223, 239, 255);
 }
 .slide p {
   margin: 5px 0 0;
@@ -90,7 +93,7 @@ main * {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--a-hover);
+  color: white;
   border: none;
   font-size: 150%;
   cursor: pointer;
@@ -103,40 +106,41 @@ main * {
   right: 10px;
 }
 
-/* RIBBON */
+
+
+/*RIBBON*/
+
 main.ribbon {
   display: flex;
-  color: var(--text-color);
+  color: rgb(192, 219, 247);
 }
-
-/* SORT */
 .sort {
   flex-basis: 14%;
   margin-left: 0.5%;
   margin-right: 0.5%;
   padding: 1%;
-  border: 2px solid var(--border-color);
+  border: 2px solid #ccc;
   max-width: 14%;
   word-wrap: break-word;
   height: fit-content;
-  background-color: #223852; /* Нет совпадения с переменной */
+  background-color: #223852;
 }
 .sort h1 {
   font-size: 22px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #ccc;
   border-radius: 0;
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
 }
 .sort h1 input[type="text"] {
   padding: 5px;
   font-size: 14px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #ccc;
   border-bottom: none;
   border-radius: 3px;
-  width: 60%;
+  width: 60%; 
 }
 .sort-options {
   margin-bottom: 20px;
@@ -150,7 +154,7 @@ main.ribbon {
 .sort-options select {
   padding: 5px;
   font-size: 14px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #ccc;
   border-radius: 3px;
   cursor: pointer;
 }
@@ -167,38 +171,103 @@ main.ribbon {
 .tags input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: var(--btn-color);
+  accent-color: #2a4564;
 }
 .tags p {
   font-size: 16px;
 }
 .sort-options select option {
-  background-color: var(--btn-color);
-  color: var(--border-color);
-  padding: 8px;
+  background-color: #2a4564; 
+  color: #ccc; 
+  padding: 8px; 
+}
+.sort {
+  word-wrap: break-word;
+  overflow-wrap: break-word; /* Добавьте это */
+  white-space: normal; /* Убедитесь, что текст переносится */
+}
+.sort h1 input[type="text"] {
+  width: 100%; /* Замените фиксированную ширину на относительную */
+  box-sizing: border-box; /* Учитывает padding и border в ширине */
+}
+.sort-options {
+  display: flex;
+  flex-wrap: wrap; /* Разрешает перенос элементов на новую строку */
+  gap: 10px;
+}
+.sort {
+  max-width: none; /* Удалите или увеличьте значение */
+  min-width: 97px;
+}
+.sort {
+  overflow: auto; /* Добавляет полосы прокрутки при необходимости */
+}
+.sort-actions {
+  display: flex;
+  justify-content: space-between; /* Размещает кнопки по краям */
+  margin-bottom: 20px; /* Добавляет отступ между кнопками и остальным содержимым */
+}
+.sort-actions button {
+  padding: 10px 15px; /* Размеры кнопок */
+  font-size: 14px; /* Размер текста */
+  border: none; /* Убирает границу */
+  border-radius: 5px; /* Закругляет углы */
+  cursor: pointer; /* Изменяет курсор при наведении */
+  background-color: #2a4564; /* Цвет фона */
+  color: #ccc; /* Цвет текста */
+  transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+.sort-actions button:hover {
+  background-color: #1a3554; /* Темнее при наведении */
 }
 
-/* ARTICLES */
+.sort-actions {
+  display: flex;
+  justify-content: space-between; /* Размещает кнопки по краям */
+  margin-bottom: 20px; /* Отступ между кнопками и остальным содержимым */
+}
+
+.sort-actions button {
+  padding: 10px; /* Размеры кнопок */
+  font-size: 18px; /* Размер иконок */
+  border: none; /* Убирает границу */
+  border-radius: 50%; /* Делает кнопки круглыми */
+  cursor: pointer; /* Изменяет курсор при наведении */
+  background-color: #2a4564; /* Цвет фона */
+  color: #ccc; /* Цвет иконок */
+  width: 40px; /* Фиксированная ширина */
+  height: 40px; /* Фиксированная высота */
+  transition: background-color 0.3s ease; /* Плавный переход цвета */
+}
+
+.sort-actions button:hover {
+  background-color: #1a3554; /* Темнее при наведении */
+}
+
+
+
+
+/*ARTICLES*/
 div.articles-blocks {
   flex-basis: 86%;
-  margin-left: 0.5%;
-  margin-right: 0.5%;
+  margin-left: .5%;
+  margin-right: .5%;
   padding-left: 1%;
   padding-right: 1%;
   word-wrap: break-word;
 }
 div.article-block {
-  margin-left: 0.5%;
-  margin-right: 0.5%;
+  margin-left: .5%;
+  margin-right: .5%;
   margin-bottom: 3%;
   padding: 1.5%;
   word-wrap: break-word;
-  border: 2px solid var(--border-color);
-  background-color: #223852; /* Нет совпадения с переменной */
+  border: 2px solid #ccc;
+  background-color: #223852;
 }
 div.article-block .header {
-  display: flex;
-  justify-content: space-between;
+  display: flex; 
+  justify-content: space-between; 
 }
 div.article-block .header h1 {
   flex-basis: 70%;
@@ -208,17 +277,17 @@ div.article-block .header span {
 }
 div.article-block h1 {
   font-size: 26px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #ccc;
   max-width: fit-content;
   border-radius: 0;
 }
-div.article-block a {
-  color: var(--text-color);
+div.article-block a{
+  color: rgb(192, 219, 247);
 }
 div.article-block .date {
   font-size: 16px;
-  padding: 0.5%;
-  border-bottom: 1px solid var(--border-color);
+  padding: .5%; 
+  border-bottom: 1px solid #ccc;
   border-radius: 0;
 }
 div.article-block div {
@@ -229,25 +298,34 @@ div.article-block div {
 div.tags-list-footer {
   display: flex;
   gap: 2%;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid #ccc;
   border-radius: 0;
 }
 
-/* ARTICLE PAGES */
+
+
+
+/*ARTICLE PAGES*/
+/*пОДГОН РАЗМЕРОВ*/
+/* .article-main-block {
+  display: flex;
+  justify-content: center;
+} */
 div.article-block.article-main {
   margin-left: 1.5%;
   margin-right: 1.5%;
   margin-top: 1%;
   margin-bottom: 1%;
+  /* width: fit-content;  */
 }
 div.article-block.article-main * {
-  color: var(--text-color);
+  color: rgb(192, 219, 247);
 }
 div.article-block.article-main h1 {
   font-size: 26px;
 }
 div.article-block.article-main .author h1 {
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid #ccc;
   border-bottom: none;
   margin-top: 1.5%;
 }
@@ -258,7 +336,10 @@ div.article-block.article-main .main-text {
   margin-right: 2.5%;
 }
 
-/* SIGNIN SIGNUP PAGE */
+
+
+
+/* SingIn SingUp PAGE */
 main.reg-auth {
   display: flex;
   justify-content: center;
@@ -269,7 +350,7 @@ main.reg-auth {
   width: 100%;
   max-width: 400px;
   padding: 20px;
-  background-color: #223852; /* Нет совпадения с переменной */
+  background-color: #223852;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -277,7 +358,7 @@ div.form-container h2 {
   text-align: center;
   font-size: 20px;
   margin-bottom: 20px;
-  color: var(--text-color);
+  color: rgb(192, 219, 247);
 }
 div.form-container form {
   display: flex;
@@ -285,38 +366,38 @@ div.form-container form {
 }
 div.form-container label {
   margin-bottom: 5px;
-  color: rgb(223, 239, 255); /* Нет совпадения с переменной */
+  color: rgb(223, 239, 255)
 }
 div.form-container input {
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  color: rgb(223, 239, 255); /* Нет совпадения с переменной */
+  color: rgb(223, 239, 255)
 }
 div.form-container button {
   padding: 10px;
-  background-color: var(--btn-color);
-  color: var(--a-hover);
+  background-color: #2a4564;
+  color: white;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
 }
 div.form-container button:hover {
-  background-color: #1c2e4a; /* Нет совпадения с переменной */
+  background-color: #1c2e4a;
 }
 div.form-container p {
   text-align: center;
   margin-top: 15px;
-  color: rgb(223, 239, 255); /* Нет совпадения с переменной */
+  color: rgb(223, 239, 255);
 }
 div.form-container a {
-  color: var(--text-color-h1);
+  color: rgb(180, 198, 214);
 }
 div.form-container a:hover {
-  color: var(--a-hover);
+  color: aliceblue;
 }
 div.form-container a:hover {
   text-decoration: underline;
@@ -324,6 +405,8 @@ div.form-container a:hover {
 div.form-container.hidden {
   display: none;
 }
+
+
 
 /* ACCOUNT */
 main.account-page {
@@ -336,14 +419,13 @@ main.account-page {
   gap: 20px;
 }
 section {
-  background-color: #223852; /* Нет совпадения с переменной */
-  border: 1px solid var(--border-color);
+  background-color: #223852;
+  border: 1px solid #ccc;
   border-radius: 8px;
   padding: 20px;
 }
-h1.account-name,
-h2.h2 {
-  color: rgb(223, 239, 255); /* Нет совпадения с переменной */
+h1.account-name, h2.h2 {
+  color: rgb(223, 239, 255);
   text-align: center;
 }
 h2.h2 {
@@ -356,7 +438,7 @@ h2.h2 {
 }
 .info-block p {
   font-size: 16px;
-  color: var(--text-color-h1);
+  color: rgb(180, 198, 214);
 }
 .account-page form button {
   padding: 10px;
@@ -365,13 +447,13 @@ h2.h2 {
 }
 .edit-profile-btn {
   width: 100%;
-  background-color: var(--btn-color);
-  color: var(--a-hover);
+  background-color: #2a4564;
+  color: white;
 }
 .logout-btn.btn {
   width: 100%;
-  background-color: var(--btn-color-red);
-  color: var(--a-hover);
+  background-color: #ff4d4d;
+  color: white;
 }
 button:hover {
   opacity: 0.9;
@@ -382,7 +464,7 @@ button:hover {
   gap: 10px;
 }
 .activity-list li {
-  color: var(--a-hover);
+  color: #f9f9f9;
   text-decoration: none;
 }
 .articles-list {
@@ -391,18 +473,18 @@ button:hover {
   gap: 15px;
 }
 .article-item {
-  border: 1px solid var(--border-color);
+  border: 1px solid #ccc;
   border-radius: 8px;
   padding: 15px;
-  background-color: #f9f9f9; /* Нет совпадения с переменной */
+  background-color: #f9f9f9;
 }
 .article-item h3 {
   margin: 0 0 10px;
-  color: var(--btn-color);
+  color: #2a4564;
 }
 .article-item p {
   margin: 0 0 10px;
-  color: #555; /* Нет совпадения с переменной */
+  color: #555;
 }
 .read-more:hover {
   text-decoration: underline;
@@ -418,13 +500,13 @@ button:hover {
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--btn-color);
-  margin-bottom: 10px;
+  border: 2px solid #2a4564;
+  margin-bottom: 10px; 
 }
 .upload-btn {
   padding: 8px 16px;
-  background-color: var(--btn-color);
-  color: var(--a-hover);
+  background-color: #2a4564;
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -434,59 +516,48 @@ button:hover {
   opacity: 0.9;
 }
 
+
+
+
 /* ARTICLE EDIT */
 main.edit-article-page {
   max-width: 65%;
   margin: 20px auto;
   padding: 20px;
-  background-color: #223852; /* Нет совпадения с переменной */
+  background-color: #223852;
 }
-main.edit-article-page h1 {
+main.edit-article-page p.title {
   text-align: center;
-  color: rgb(223, 239, 255); /* Нет совпадения с переменной */
+  color: rgb(223, 239, 255);
   font-size: 150%;
   margin-bottom: 1%;
 }
-main.edit-article-page .toolbar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-main.edit-article-page .toolbar button {
-  padding: 8px 12px;
-  background-color: rgb(83, 159, 182); /* Нет совпадения с переменной */
-  color: var(--a-hover);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-}
-main.edit-article-page .toolbar button:hover {
-  opacity: 0.9;
-}
+
 main.edit-article-page .form-section {
   margin-bottom: 20px;
 }
+
 main.edit-article-page label {
   display: block;
   margin-bottom: 5px;
-  color: var(--text-color);
+  color: rgb(192, 219, 247);
   font-size: 120%;
 }
+
 main.edit-article-page input[type="text"],
 main.edit-article-page textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
   resize: vertical;
-  color: rgb(223, 239, 255); /* Нет совпадения с переменной */
+  color: rgb(223, 239, 255);
 }
 main.edit-article-page button {
   padding: 10px 15px;
-  background-color: rgb(83, 159, 182); /* Нет совпадения с переменной */
-  color: var(--a-hover);
+  background-color: rgb(83, 159, 182);
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -496,6 +567,7 @@ main.edit-article-page button {
 main.edit-article-page button:hover {
   opacity: 0.9;
 }
+
 main.edit-article-page #existing-tags-list,
 main.edit-article-page #new-tags-list {
   display: flex;
@@ -504,16 +576,85 @@ main.edit-article-page #new-tags-list {
 }
 main.edit-article-page #existing-tags-list li,
 main.edit-article-page #new-tags-list li {
-  background-color: #223852; /* Нет совпадения с переменной */
+  background-color: #223852;
   padding: 5px 10px;
 }
+
+ul#new-tags-list {
+  padding-left: 0;
+}
+ul#new-tags-list li#add-tag {
+  padding: 0;
+}
+main.edit-article-page input#new_tags-0 {
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 1%;
+}
+main.edit-article-page input:hover {
+  opacity: 0.9;
+}
+
+main.edit-article-page input#submit {
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 1%;
+  padding: 2%;
+}
+main.edit-article-page input:hover {
+  opacity: 0.9;
+}
+
 main.edit-article-page .action-buttons {
   display: flex;
   justify-content: space-between;
 }
 main.edit-article-page .action-buttons #cancel-btn {
-  background-color: var(--btn-color-red);
+  background-color: #ff4d4d;
 }
-main.edit-article-page .action-buttons #save-article-btn {
+main.edit-article-page .action-buttons #submit {
   background-color: rgb(48, 155, 21); /* Нет совпадения с переменной */
+}
+
+
+/* Изменение стиля контейнера CKEditor */
+.ck-content {
+  min-height: 110px;
+  padding: 15px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+main.edit-article-page h1 {
+  color: black;
+  font-size: 26px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+main.edit-article-page h2{
+  color: black;
+  font-size: 22px;
+}
+main.edit-article-page h3 {
+  color: black;
+  font-size: 18px;
+}
+main.edit-article-page p {
+  color: black;
+  font-size: 16px;
+}
+main.edit-article-page ul {
+  padding-left: 20px;
+  margin: 10px 0;
+  list-style:circle;
+}
+main.edit-article-page ol {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+main.edit-article-page li {
+  margin: 5px 0;
 }

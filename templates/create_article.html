@@ -66,7 +66,7 @@
         <button type="button" id="add-tag-btn">Добавить тег</button>
         <ul id="new-tags-list">
           {% for tag_field in form.new_tags %}
-            <li>
+            <li id="add-tag">
               {{ tag_field(class="form-input", placeholder="Введите новый тег") }}
               {% if tag_field.errors %}
                 <ul class="error-messages">

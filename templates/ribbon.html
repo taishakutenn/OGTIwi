@@ -4,13 +4,20 @@
 	<main class="ribbon">
 		<!-- Сортировка -->
 		<div class="sort">
+			<!-- Кнопки применения сортировки -->
+		     <div class="sort-actions">
+		        <button id="apply-sort">🔎</button> <!-- Лупа -->
+		        <button id="reset-sort">↻</button> <!-- Закругленная стрелка -->
+		    </div>
 			<!-- Выпадающий список для сортировки -->
 			<div class="sort-options">
 				<label for="sort-by">Сортировать по дате:</label>
-				<select id="sort-by">
-					<option value="newest">Вниз</option>
-					<option value="oldest">Вверх</option>
-				</select>
+				<label style="margin-right: 10px;">
+			    	<input type="radio" name="arrow" value="up"> ↑ 
+				</label>
+				<label>
+				    <input type="radio" name="arrow" value="down"> ↓
+				</label>
 			</div>
 			<!-- Теги -->
 			<h1>#Теги <input type="text" id="tag-search" placeholder="Поиск тегов"></h1>
@@ -45,72 +52,26 @@
 	<script>
 		// Массив тегов
 		const tags = ["A", "B", "C", "D", "F", "G", "GG"];
+	    
 	
 		document.addEventListener('DOMContentLoaded', () => {
-			const tagsList = document.getElementById('tags-list'); 
-			const tagSearchInput = document.getElementById('tag-search'); 
-			const sortBySelect = document.getElementById('sort-by'); 
-	
-			// Создание тегов
-			function createTags(tags) {
-				tags.forEach(tag => {
-					const listItem = document.createElement('li');
-	
-					const checkbox = document.createElement('input');
-					checkbox.type = 'checkbox';
-					checkbox.value = tag;
-					checkbox.className = 'tag-checkbox';
-	
-					const text = document.createElement('p');
-					text.textContent = tag;
-	
-					const label = document.createElement('label');
-					label.appendChild(checkbox);
-					label.appendChild(text);
-					listItem.appendChild(label);
-					tagsList.appendChild(listItem);
-				});
-			}
-	
-			// Функция фильтрации тегов по поисковому запросу
-			function filterTags() {
-				const query = tagSearchInput.value.trim().toLowerCase();
-				const tagItems = tagsList.querySelectorAll('li');
-	
-				tagItems.forEach(item => {
-					const tagText = item.querySelector('p').textContent.toLowerCase();
-					if (tagText.includes(query)) {
-						item.style.display = ''; // Показываем элемент
-					} else {
-						item.style.display = 'none'; // Скрываем элемент
-					}
-				});
-			}
-	
-			// отображение статей
-			function displayArticles(articles) {
-				articlesContainer.innerHTML = ''; // Очищаем контейнер
-	
-				articles.forEach(article => {
-					const articleBlock = document.createElement('div');
-					articleBlock.classList.add('article-block');
-	
-					const title = document.createElement('h1');
-					title.classList.add('title');
-					title.textContent = article.title;
-	
-					const content = document.createElement('pre');
-					content.classList.add('main-text');
-					content.textContent = article.content;
-	
-					articleBlock.appendChild(title);
-					articleBlock.appendChild(content);
-					articlesContainer.appendChild(articleBlock);
-				});
-			}
-	
-			createTags(tags);
-			tagSearchInput.addEventListener('input', filterTags);
+			const applySortButton = document.getElementById('apply-sort');
+	    	const resetSortButton = document.getElementById('reset-sort');
+	    	
+	    	// Применение сортировки
+		    applySortButton.addEventListener('click', () => {
+		        const selectedOrder = document.querySelector('input[name="arrow"]:checked')?.value || 'up';
+		        sortArticles(selectedOrder);
+		    });
+
+		    // Сброс сортировки
+		    resetSortButton.addEventListener('click', () => {
+		        articles.sort((a, b) => new Date(a.date) - new Date(b.date)); // Возвращаем к исходному порядку
+		        displayArticles(articles);
+		    });
+
+		    // Инициализация отображения статей
+		    displayArticles(articles);
 		});
 	</script>
 {% endblock %}
