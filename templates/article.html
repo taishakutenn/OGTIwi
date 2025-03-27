@@ -8,7 +8,7 @@
           <h1 class="title">{{ article.title }}</h1>
           <span class="date">{{ article.created_date }}</span>
         </div>
-        <div class="main-text">{{ article.article_text }}</div>
+        <div class="main-text">{{ article.article_text | safe }}</div>
         <!-- Место для автора и тегов -->
         <div class="author">
           <h1>
@@ -16,12 +16,9 @@
           </h1>
         </div>
         <div class="tags-list-footer">
-          <p>tag</p>
-          <p>tag</p>
-          <p>tag</p>
-          <p>tag</p>
-          <p>tag</p>
-          <p>tag</p>
+          {% for tag in tags %}
+            <p>{{ tag }}</p>
+          {% endfor %}
         </div>
       </div>
     </div>

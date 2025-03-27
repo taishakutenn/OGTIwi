@@ -104,13 +104,30 @@ def ribbon():
     offset = (page - 1) * articles_per_page # Сколько записей нужно пропустить в бд для данной страницы
 
     db_sess = db_session.create_session()
+
     # По умолчанию получаем последние 6 статей
     articles = db_sess.query(Article).order_by(Article.id.desc()).offset(offset).limit(articles_per_page).all()
 
-    params = {}
-    params["title"] = "Лента"
-    params["articles"] = articles
+    # Словарь для хранения параметров
+    params = {
+        "title": "Лента",
+        "articles": [],
+    }
 
+    # Для каждой статьи получаем её теги
+    for article in articles:
+        article_to_tags = db_sess.query(NewsToTags).filter(NewsToTags.article_id == article.id).all()
+
+        # Получаем имена тегов для текущей статьи
+        tags = [tag.tag.name for tag in article_to_tags]
+
+        # Добавляем статью и её теги в параметры
+        params["articles"].append({
+            "article": article,
+            "tags": tags,
+        })
+
+    # Передаем параметры в шаблон или обработчик
     return render_template("ribbon.html", **params)
 
 
@@ -212,7 +229,11 @@ def article(article_id):
     if not article:
         return "Статья не найдена", 404
 
+    db_sess = db_session.create_session()
+    article_to_tags = db_sess.query(NewsToTags).filter(NewsToTags.article_id == article_id).all()
+
     params = {"article": article,
+              "tags": [value.tag.name for count, value in enumerate(article_to_tags) if count < 5],
               "title": article.title}
 
     return render_template("article.html", **params)
