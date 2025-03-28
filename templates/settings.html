@@ -67,5 +67,12 @@
       </div>
   </main>
 
+  <script>
+    document.getElementById('theme').addEventListener('change', function (event) {
+      const theme = event.target.value; 
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    });
+  </script>
 </body>
 </html>
