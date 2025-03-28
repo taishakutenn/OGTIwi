@@ -684,3 +684,82 @@ main.edit-article-page ol {
 main.edit-article-page li {
   margin: 5px 0;
 }
+
+
+
+/* SETTINGS */
+.settings-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--background-clr-2);
+  color: var(--text-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.settings-page h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.settings-form label {
+  font-size: 16px;
+  font-weight: bold;
+}
+.settings-form input,
+.settings-form textarea,
+.settings-form select {
+  padding: 10px;
+  font-size: 14px;
+  border: var(--border-std);
+  border-radius: 5px;
+  background-color: var(--background-clr);
+  color: var(--text-color);
+}
+.settings-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.save-button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--background-clr);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.save-button:hover {
+  background-color: var(--btn-color-green);
+}
+.request-section {
+  border: var(--border-std);
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--background-clr);
+  border-radius: 10px;
+  text-align: center;
+}
+.request-section h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.request-button {
+  margin-top: 5%;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--btn-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.request-button:hover {
+  background-color: var(--btn-color-green);
+}

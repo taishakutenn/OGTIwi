@@ -11,6 +11,8 @@
   --border-color: #ccc;
   --btn-color: #2a4564;
   --btn-color-red: #ff4d4d;
+  --btn-color-green: rgb(48, 155, 21);
+  --border-std: #ccc, solid, 1px;
 }
 [data-theme="dark"] {
   --background-clr: rgb(28, 47, 68);
@@ -22,6 +24,8 @@
   --border-color: #ccc;
   --btn-color: #2a4564;
   --btn-color-red: #ff4d4d;
+  --btn-color-green: rgb(48, 155, 21);
+  --border-std: #ccc, solid, 1px;
 }
 
 body {

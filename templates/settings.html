@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="CSS/base.css">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="LOGO.png" alt="logo.net">
+    </div>
+    <nav>
+      <a href="base.html">Главная</a>
+      <a href="ribbon.html">Лента</a>
+      <a href="">Настройки</a>
+    </nav>
+
+    <!-- ПОИСК -->
+    <div class="search_block">
+      <form>
+        <input type="text" placeholder="Поиск">
+        <button type="submit">Найти</button>
+      </form>
+    </div>
+    <!-- AK -->
+    <div class="account">
+      <a href="">Регистрация</a>
+      <a href="">Вход</a>
+    </div>
+  </header>
+
+  <main class="settings-page">
+      <h1>Настройки профиля</h1>
+  
+      <!-- Форма для изменения данных -->
+      <form action="/update-settings" method="POST" class="settings-form">
+          <!-- Имя -->
+          <label for="first_name">Имя:</label>
+          <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" placeholder="Введите имя">
+          <!-- Фамилия -->
+          <label for="last_name">Фамилия:</label>
+          <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" placeholder="Введите фамилию">
+          <!-- Никнейм -->
+          <label for="username">Никнейм:</label>
+          <input type="text" id="username" name="username" value="{{ user.username }}" placeholder="Введите никнейм">
+          <!-- Информация о себе -->
+          <label for="about_me">Информация о себе:</label>
+          <textarea id="about_me" name="about_me" placeholder="Расскажите о себе">{{ user.about_me }}</textarea>
+          <!-- Тема оформления -->
+          <label for="theme">Тема оформления:</label>
+          <select id="theme" name="theme">
+              <option value="light" >Светлая</option>
+              <option value="dark" >Темная</option>
+          </select>
+          <!-- Кнопка сохранения изменений -->
+          <button type="submit" class="save-button">Сохранить изменения</button>
+      </form>
+      <!-- Запрос на возможность создавать статьи -->
+      <div class="request-section">
+          <h2>Запрос на создание статей</h2>
+          <p>Чтобы получить возможность создавать статьи, отправьте запрос администратору.</p>
+          <form action="/request-article-permission" method="POST">
+              <button type="submit" class="request-button">Отправить запрос</button>
+          </form>
+      </div>
+  </main>
+
+</body>
+</html>
