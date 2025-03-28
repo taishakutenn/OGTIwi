@@ -48,6 +48,21 @@
             {% endfor %}
         </div>
     </main>
+    <!-- Пагинация -->
+	<div class="pagination">
+	    <form action="/ribbon" method="POST">
+	        <!-- Ссылка на первую страницу -->
+	        <button type="submit" name="page" value="ribbon">1</button>
+	        <!-- Стрелка влево -->
+	        <button type="submit" name="page" value="prev">←</button>
+	        <!-- Отображение текущей страницы -->
+	        <span class="current-page">{{ current_page }}</span>
+	        <!-- Стрелка вправо -->
+	        <button type="submit" name="page" value="next">→</button>
+	        <!-- Ссылка на последнюю страницу -->
+	        <button type="submit" name="page" value="{{ total_pages }}">{{ total_pages }}</button>
+	    </form>
+	</div>
 	
 	<script>
 		// Массив тегов

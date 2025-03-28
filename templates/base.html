@@ -46,38 +46,6 @@
   <main>
     {% block content %}{% endblock %}
   </main>
-
-  <script>
-    let currentIndex = 0;
-
-    function showSlides(index) {
-      const slides = document.querySelectorAll('.slider .slide');
-      const totalGroups = Math.ceil(slides.length / 3); // Количество групп по 3 слайда
-      const slideWidth = slides[0].offsetWidth + 20; // Ширина слайда + отступы
-      const groupWidth = slideWidth * 3; // Ширина группы из 3 слайдов
-
-      if (index >= totalGroups) currentIndex = 0;
-      if (index < 0) currentIndex = totalGroups - 1;
-
-      const slider = document.querySelector('.slider');
-      slider.style.transform = `translateX(${-currentIndex * groupWidth}px)`;
-    }
-
-    function nextSlide() {
-      currentIndex++;
-      showSlides(currentIndex);
-    }
-
-    function prevSlide() {
-      currentIndex--;
-      showSlides(currentIndex);
-    }
-
-    window.onload = () => {
-      showSlides(currentIndex);
-    };
-  </script>
-
   <footer>
     <div class="aboutUs">
       <h1>Разработчики</h1>

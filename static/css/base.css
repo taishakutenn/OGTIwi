@@ -183,67 +183,93 @@ main.ribbon {
 }
 .sort {
   word-wrap: break-word;
-  overflow-wrap: break-word; /* Добавьте это */
-  white-space: normal; /* Убедитесь, что текст переносится */
+  overflow-wrap: break-word;
+  white-space: normal; 
 }
 .sort h1 input[type="text"] {
-  width: 100%; /* Замените фиксированную ширину на относительную */
-  box-sizing: border-box; /* Учитывает padding и border в ширине */
+  width: 100%; 
+  box-sizing: border-box;
 }
 .sort-options {
   display: flex;
-  flex-wrap: wrap; /* Разрешает перенос элементов на новую строку */
+  flex-wrap: wrap; 
   gap: 10px;
 }
 .sort {
-  max-width: none; /* Удалите или увеличьте значение */
+  max-width: none; 
   min-width: 97px;
 }
 .sort {
-  overflow: auto; /* Добавляет полосы прокрутки при необходимости */
+  overflow: auto; 
 }
 .sort-actions {
   display: flex;
-  justify-content: space-between; /* Размещает кнопки по краям */
-  margin-bottom: 20px; /* Добавляет отступ между кнопками и остальным содержимым */
+  justify-content: space-between; 
+  margin-bottom: 20px; 
 }
 .sort-actions button {
-  padding: 10px 15px; /* Размеры кнопок */
-  font-size: 14px; /* Размер текста */
-  border: none; /* Убирает границу */
-  border-radius: 5px; /* Закругляет углы */
-  cursor: pointer; /* Изменяет курсор при наведении */
-  background-color: #2a4564; /* Цвет фона */
-  color: #ccc; /* Цвет текста */
-  transition: background-color 0.3s ease; /* Плавный переход цвета */
+  padding: 10px 15px; 
+  font-size: 14px;
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  background-color: #2a4564; 
+  color: #ccc; 
+  transition: background-color 0.3s ease;
 }
 .sort-actions button:hover {
-  background-color: #1a3554; /* Темнее при наведении */
+  background-color: #1a3554;
 }
-
 .sort-actions {
   display: flex;
-  justify-content: space-between; /* Размещает кнопки по краям */
-  margin-bottom: 20px; /* Отступ между кнопками и остальным содержимым */
+  justify-content: space-between; 
+  margin-bottom: 20px; 
 }
-
 .sort-actions button {
-  padding: 10px; /* Размеры кнопок */
-  font-size: 18px; /* Размер иконок */
-  border: none; /* Убирает границу */
-  border-radius: 50%; /* Делает кнопки круглыми */
-  cursor: pointer; /* Изменяет курсор при наведении */
-  background-color: #2a4564; /* Цвет фона */
-  color: #ccc; /* Цвет иконок */
-  width: 40px; /* Фиксированная ширина */
-  height: 40px; /* Фиксированная высота */
-  transition: background-color 0.3s ease; /* Плавный переход цвета */
+  padding: 10px; 
+  font-size: 18px;
+  border: none; 
+  border-radius: 50%; 
+  cursor: pointer; 
+  background-color: #2a4564; 
+  color: #ccc;
+  width: 40px; 
+  height: 40px;
+  transition: background-color 0.3s ease;
 }
-
 .sort-actions button:hover {
-  background-color: #1a3554; /* Темнее при наведении */
+  background-color: #1a3554;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  gap: 10px; 
+  margin-top: 20px;
+}
+.pagination form {
+  display: flex;
+  gap: 10px;
+}
+.pagination button {
+  padding: 10px; 
+  font-size: 16px;
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer;
+  background-color: #1a3554; 
+  color: #ccc; 
+  transition: background-color 0.3s ease;
+}
+.pagination button:hover {
+  background-color: #1c2e4a; 
+}
+.pagination .current-page {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ccc; 
+}
 
 
 
