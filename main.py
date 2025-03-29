@@ -310,5 +310,16 @@ def create_article():
     return render_template('create_article.html', **params)
 
 
+@app.route("/settings")
+def settings():
+    params = {}
+    params["title"] = "Настройки"
+
+    if not current_user.is_authenticated:
+        return redirect("/login")
+
+    return render_template("settings.html", **params)
+
+
 if __name__ == '__main__':
     main()

@@ -82,7 +82,13 @@ main * {
   font-size: 140%;
   word-wrap: break-word;
   margin-bottom: 3.5%;
-  color: rgb(223, 239, 255);
+  color: white;
+}
+.slide h3 a {
+  font-size: 100%;
+  word-wrap: break-word;
+  margin-bottom: 3.5%;
+  color: white;
 }
 .slide p {
   margin: 5px 0 0;
