@@ -1,4 +1,5 @@
 import base64
+from crypt import methods
 
 from flask import Flask, render_template, url_for, redirect, request, jsonify
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
@@ -310,7 +311,7 @@ def create_article():
     return render_template('create_article.html', **params)
 
 
-@app.route("/settings")
+@app.route("/settings", methods=["GET", "POST"])
 def settings():
     params = {}
     params["title"] = "Настройки"
@@ -320,6 +321,20 @@ def settings():
 
     return render_template("settings.html", **params)
 
+
+@app.route("/admin/confirmation")
+def confirmation():
+    return "Страница подтверждения возможности создания статей"
+
+
+@app.route("article/<int:article_id>/edit")
+def edit_article():
+    return "Страница редактирования статьи"
+
+
+@app.route("/account/<string:username>/all_articles")
+def all_user_articles():
+    return "Страница всех статей определённого пользователя"
 
 if __name__ == '__main__':
     main()
