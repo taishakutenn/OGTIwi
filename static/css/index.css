@@ -11,7 +11,7 @@
   --base-text-clr: black;
   --text-clr-h1: black;
   --border-clr: rgb(150, 154, 171);
-  --btn-clr: #2a4564;
+  --btn-clr: rgb(83, 159, 182);
   --btn-clr-red: #ff4d4d;
   --btn-clr-green: rgb(48, 155, 21);
   --btn-clr-cyan: rgb(83, 159, 182);
@@ -111,7 +111,7 @@ div.search_block {
   background-color: var(--btn-clr);
   border: none;
   border-radius: 6px;
-  color: var(--a-hover);
+  color: var(--text-clr);
   font-size: 100%;
   cursor: pointer;
   margin-left: 10px;
