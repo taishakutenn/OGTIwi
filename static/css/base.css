@@ -110,6 +110,28 @@ main * {
   right: 10px;
 }
 
+/* create button */
+form.for-btn-create {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.create-article-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--btn-clr-cyan);
+  color: var(--text-clr);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.create-article-btn:hover {
+  background-color: var(--btn-clr-green);
+}
+
+
+
 
 
 /*RIBBON*/
@@ -306,9 +328,13 @@ div.article-block {
   border: 2px solid var(--border-clr);
   background-color: var(--background-clr-dark);
 }
+.article-block.article-main .info {
+  margin-top: 0;
+}
 div.article-block .header {
   display: flex; 
   justify-content: space-between; 
+  margin-top: 0;
 }
 div.article-block .header h1 {
   flex-basis: 70%;
@@ -340,6 +366,13 @@ div.tags-list-footer {
   display: flex;
   gap: 2%;
   border-top: var(--border-std);
+  border-radius: 0;
+}
+
+table, th, td {
+  border: var(--border-std);
+  margin-top: 1%;
+  border-collapse: collapse;
   border-radius: 0;
 }
 
