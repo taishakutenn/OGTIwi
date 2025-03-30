@@ -5,28 +5,37 @@
       <h1>Настройки профиля</h1>
   
       <!-- Форма для изменения данных -->
-      <form action="/update-settings" method="POST" class="settings-form">
+      <form action="{{ url_for('settings') }}" method="POST" class="settings-form">
+          {{ form.hidden_tag() }} <!-- Защита CSRF -->
+
           <!-- Имя -->
-          <label for="first_name">Имя:</label>
-          <input type="text" id="first_name" name="first_name" value="{{ current_user.first_name }}" placeholder="Введите имя">
+          {{ form.name.label }} <!-- Лейбл для поля -->
+          {{ form.name(class="form-control", placeholder="Введите имя") }}
+
           <!-- Фамилия -->
-          <label for="last_name">Фамилия:</label>
-          <input type="text" id="last_name" name="last_name" value="{{ current_user.last_name }}" placeholder="Введите фамилию">
+          {{ form.surname.label }}
+          {{ form.surname(class="form-control", placeholder="Введите фамилию") }}
+
           <!-- Никнейм -->
-          <label for="username">Никнейм:</label>
-          <input type="text" id="username" name="username" value="{{ current_user.username }}" placeholder="Введите никнейм">
+          {{ form.nickname.label }}
+          {{ form.nickname(class="form-control", placeholder="Введите никнейм") }}
+
+
           <!-- Информация о себе -->
-          <label for="about_me">Информация о себе:</label>
-          <textarea id="about_me" name="about_me" placeholder="Расскажите о себе">{{ current_user.about }}</textarea>
+          {{ form.about.label }}
+          {{ form.about(class="form-control", placeholder="Расскажите о себе") }}
+
           <!-- Тема оформления -->
           <label for="theme">Тема оформления:</label>
           <select id="theme" name="theme">
               <option value="light" >Светлая</option>
               <option value="dark" >Темная</option>
           </select>
+
           <!-- Кнопка сохранения изменений -->
-          <button type="submit" class="save-button">Сохранить изменения</button>
+          {{ form.submit(class="save-button") }}
       </form>
+
       <!-- Запрос на возможность создавать статьи -->
       <div class="request-section">
           <h2>Запрос на создание статей</h2>
@@ -35,13 +44,12 @@
               <button type="submit" class="request-button">Отправить запрос</button>
           </form>
       </div>
-  </main>
-
   <script>
-    document.getElementById('theme').addEventListener('change', function (event) {
-      const theme = event.target.value; 
+      document.getElementById('theme').addEventListener('change', function (event) {
+      const theme = event.target.value;
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
     });
   </script>
+  </main>
 {% endblock %}

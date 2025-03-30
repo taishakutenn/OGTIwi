@@ -11,7 +11,7 @@ from forms.article import CreateArticle
 from src.settings import SECRET_KEY  # Получаем секртеный ключ ответа сервера для flask-wtf
 from src.user_management import *
 from src.article_management import *
-from forms.user import LoginForm, RegisterForm  # Импортируем классы форм
+from forms.user import LoginForm, RegisterForm, SettingsForm  # Импортируем классы форм
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -312,11 +312,43 @@ def create_article():
 
 @app.route("/settings", methods=['GET', 'POST'])
 def settings():
-    params = {}
-    params["title"] = "Настройки"
-
     if not current_user.is_authenticated:
         return redirect("/login")
+
+    # Создаем форму с начальными значениями из current_user
+    form = SettingsForm(obj=current_user)
+
+    params = {
+        "title": "Настройки",
+        "form": form
+    }
+
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+
+        # Проверка уникальности никнейма
+        if form.nickname.data != current_user.username:
+            is_nickname = db_sess.query(User.username).filter(User.username == form.nickname.data).first()
+            if is_nickname and is_nickname[0] != current_user.username:
+                print("Пользователь с таким ником уже существует")
+                return render_template("settings.html", **params)
+            else:
+                user.username = form.nickname.data
+
+        if form.name.data != current_user.name:
+            user.name = form.name.data
+
+        if form.surname.data != current_user.surname:
+            user.surname = form.surname.data
+
+        if form.about.data != current_user.about:
+            user.about = form.about.data
+
+        # Сохранение изменений в базе данных
+        db_sess.commit()
+
+        return render_template("settings.html", **params)
 
     return render_template("settings.html", **params)
 
