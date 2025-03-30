@@ -65,28 +65,38 @@
 	</div>
 	
 	<script>
-		// Массив тегов
-		const tags = ["A", "B", "C", "D", "F", "G", "GG"];
-	    
-	
 		document.addEventListener('DOMContentLoaded', () => {
-			const applySortButton = document.getElementById('apply-sort');
-	    	const resetSortButton = document.getElementById('reset-sort');
-	    	
-	    	// Применение сортировки
-		    applySortButton.addEventListener('click', () => {
-		        const selectedOrder = document.querySelector('input[name="arrow"]:checked')?.value || 'up';
-		        sortArticles(selectedOrder);
-		    });
+		    const tagsList = document.getElementById('tags-list'); // Находим контейнер для тегов
 
-		    // Сброс сортировки
-		    resetSortButton.addEventListener('click', () => {
-		        articles.sort((a, b) => new Date(a.date) - new Date(b.date)); // Возвращаем к исходному порядку
-		        displayArticles(articles);
-		    });
+		    // Массив тегов
+		    const tags = ["A", "B", "C", "D", "F", "G", "GG"];
 
-		    // Инициализация отображения статей
-		    displayArticles(articles);
+		    // Функция для отображения тегов с чекбоксами
+		    function displayTags() {
+		        tags.forEach(tag => {
+		            const listItem = document.createElement('li'); // Создаем элемент <li>
+
+		            // Создаем чекбокс
+		            const checkbox = document.createElement('input');
+		            checkbox.type = 'checkbox';
+		            checkbox.value = tag; // Значение чекбокса равно тегу
+		            checkbox.className = 'tag-checkbox'; // Добавляем класс для стилизации
+
+		            // Создаем текст тега
+		            const text = document.createElement('span');
+		            text.textContent = tag;
+
+		            // Добавляем чекбокс и текст в элемент списка
+		            listItem.appendChild(checkbox);
+		            listItem.appendChild(text);
+
+		            // Добавляем элемент списка в контейнер
+		            tagsList.appendChild(listItem);
+		        });
+		    }
+
+		    // Вызываем функцию для отображения тегов
+		    displayTags();
 		});
 	</script>
 {% endblock %}

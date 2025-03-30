@@ -14,7 +14,7 @@
     <nav>
       <a href="/index">Главная</a>
       <a href="/ribbon">Лента</a>
-      <a href="">Настройки</a>
+      <a href="/settings">Настройки</a>
     </nav>
 
     <!-- ПОИСК -->
@@ -46,6 +46,13 @@
   <main>
     {% block content %}{% endblock %}
   </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Проверяем сохраненную тему в localStorage
+      const savedTheme = localStorage.getItem('theme') || 'dark'; // По умолчанию 'dark'
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    });
+  </script>
   <footer>
     <div class="aboutUs">
       <h1>Разработчики</h1>

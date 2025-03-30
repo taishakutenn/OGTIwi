@@ -2,30 +2,38 @@
 
 /* VAR!! */
 :root {
-  --background-clr: rgb(28, 47, 68);
-  --background-clr-2: rgb(42, 69, 100);
-  --text-color: rgb(192, 219, 247);
-  --a-hover: rgb(255, 255, 255);
-  --base-text-color: rgb(192, 219, 247);
-  --text-color-h1: rgb(180, 198, 214);
-  --border-color: #ccc;
-  --btn-color: #2a4564;
-  --btn-color-red: #ff4d4d;
-  --btn-color-green: rgb(48, 155, 21);
-  --border-std: #ccc, solid, 1px;
+  --background-clr: rgb(244, 245, 250);
+  --background-clr-2: rgb(255, 255, 255);
+  --background-clr-dark: rgb(244, 245, 250);
+  --text-clr: black;
+  --a-hover: rgb(177, 177, 177);
+  --label-clr: rgb(223, 239, 255);
+  --base-text-clr: black;
+  --text-clr-h1: black;
+  --border-clr: rgb(150, 154, 171);
+  --btn-clr: #2a4564;
+  --btn-clr-red: #ff4d4d;
+  --btn-clr-green: rgb(48, 155, 21);
+  --btn-clr-cyan: rgb(83, 159, 182);
+  --border-std: 1px solid rgb(150, 154, 171);
+  --slide-btn-clr: rgb(150, 154, 171);
 }
 [data-theme="dark"] {
-  --background-clr: rgb(28, 47, 68);
-  --background-clr-2: rgb(42, 69, 100);
-  --text-color: rgb(192, 219, 247);
+  --background-clr: rgb(56, 58, 71);
+  --background-clr-2: rgb(44, 46, 58);
+  --background-clr-dark: rgb(72, 76, 96);
+  --text-clr: rgb(192, 219, 247);
   --a-hover: rgb(255, 255, 255);
-  --base-text-color: rgb(192, 219, 247);
-  --text-color-h1: rgb(180, 198, 214);
-  --border-color: #ccc;
-  --btn-color: #2a4564;
-  --btn-color-red: #ff4d4d;
-  --btn-color-green: rgb(48, 155, 21);
-  --border-std: #ccc, solid, 1px;
+  --label-clr: rgb(223, 239, 255);
+  --base-text-clr: rgb(192, 219, 247);
+  --text-clr-h1: rgb(180, 198, 214);
+  --border-clr: rgb(150, 154, 171);
+  --btn-clr: #2a4564;
+  --btn-clr-red: #ff4d4d;
+  --btn-clr-green: rgb(48, 155, 21);
+  --btn-clr-cyan: rgb(83, 159, 182);
+  --border-std: 1px solid rgb(150, 154, 171);
+  --slide-btn-clr: #ccc;
 }
 
 body {
@@ -45,7 +53,7 @@ header {
   align-items: center;
 }
 header * {
-  color: var(--text-color-h1);
+  color: var(--text-clr-h1);
 }
 header a {
   font-size: 115%;
@@ -93,14 +101,14 @@ div.search_block {
 .search_block input[type="text"] {
   width: 60%;
   padding: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-clr);
   border-radius: 6px;
   font-size: 100%;
   outline: none;
 }
 .search_block button[type="submit"] {
   padding: 10px 20px;
-  background-color: var(--btn-color);
+  background-color: var(--btn-clr);
   border: none;
   border-radius: 6px;
   color: var(--a-hover);
@@ -121,7 +129,7 @@ footer {
 }
 
 footer * {
-  color: var(--text-color-h1);
+  color: var(--text-clr-h1);
 }
 footer h1 {
   font-size: 140%;
@@ -131,6 +139,6 @@ footer a {
   font-size: 120%;
 }
 footer a:hover {
-  color: var(--text-color);
+  color: var(--text-clr);
   text-decoration: underline;
 }

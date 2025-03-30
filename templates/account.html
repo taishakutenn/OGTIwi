@@ -64,7 +64,10 @@
         <article class="article-item">
           <h3>{{ article.title }}</h3>
           <p> {{ article.preview }}</p>
-          <a href="/article/{{ article.id }}" class="read-more">Читать далее</a>
+          <p class="article-link">
+            <a href="/article/{{ article.id }}" class="read-more">Читать далее</a>
+          </p>
+          
         </article>
       {% endfor %}
       </div>
