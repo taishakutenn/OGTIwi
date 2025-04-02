@@ -11,7 +11,7 @@ class Notification(SqlAlchemyBase):
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'), nullable=False)  # ID пользователя
     message = sqlalchemy.Column(sqlalchemy.String, nullable=False)  # Текст уведомления
     is_read = sqlalchemy.Column(sqlalchemy.Boolean, default=False)  # Прочитано ли уведомление
-    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)  # Дата создания
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.date.today)  # Дата создания
 
     user = orm.relationship('User')
 

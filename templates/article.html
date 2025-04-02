@@ -6,7 +6,7 @@
       <div class="info">
         <div class="header">
           <h1 class="title">{{ article.title }}</h1>
-          <span class="date">{{ article.created_date }}</span>
+          <span class="date">{{ article.created_date.strftime('%Y-%m-%d') }}</span>
         </div>
         <div class="main-text">{{ article.article_text | safe }}</div>
         <!-- Место для автора и тегов -->
@@ -17,7 +17,7 @@
         </div>
         <div class="tags-list-footer">
           {% for tag in tags %}
-            <p>{{ tag }}</p>
+            <p>#{{ tag }}</p>
           {% endfor %}
         </div>
       </div>

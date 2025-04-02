@@ -36,12 +36,12 @@
                         <h1 class="title">
                             <a href="/article/{{ item.article.id }}">{{ item.article.title }}</a>
                         </h1>
-                        <span class="date">{{ item.article.created_date }}</span>
+                        <span class="date">{{ item.article.created_date.strftime('%Y-%m-%d') }}</span>
                     </div>
                     <div class="main-text">{{ item.article.preview }}</div>
                     <div class="tags-list-footer">
                         {% for tag in item.tags %}
-                            <p>{{ tag }}</p>
+                            <p>#{{ tag }}</p>
                         {% endfor %}
                     </div>
                 </div>

@@ -9,7 +9,7 @@ class Demand(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'), nullable=False)  # ID пользователя
     status = sqlalchemy.Column(sqlalchemy.String, default="pending")  # Статус: "pending", "approved", "rejected"
-    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)  # Дата создания запроса
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.date.today)  # Дата создания запроса
     reviewed_by = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'), nullable=True)  # Кто рассмотрел
     reviewed_date = sqlalchemy.Column(sqlalchemy.DateTime, nullable=True)  # Дата рассмотрения
     comment = sqlalchemy.Column(sqlalchemy.String, nullable=True)  # Комментарий администратора

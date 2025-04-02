@@ -19,7 +19,7 @@ class User(SqlAlchemyBase, UserMixin):
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     role = sqlalchemy.Column(sqlalchemy.String, nullable=True, default="user")
-    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.date.today)
 
     # Связи
     articles = orm.relationship("Article", back_populates='user', cascade="all, delete-orphan")

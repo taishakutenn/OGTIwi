@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="ribbon">
+    <!-- Статьи -->
+    <div class="articles-blocks">
+        <h1>Статьи пользователя {{ username }}</h1>
+        {% if articles %}
+            {% for article in articles %}
+                <div class="article-block">
+                    <div class="header">
+                        <h1 class="title">
+                            <a href="/article/{{ article.id }}">{{ article.title }}</a>
+                        </h1>
+                        <span class="date">{{ article.created_date.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    <div class="main-text">{{ article.preview }}</div>
+                    <div class="tags-list-footer">
+                        {% if article.tags %}
+                            {% for news_to_tag in article.tags %}
+                                <p>#{{ news_to_tag.tag.name }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>У пользователя пока нет статей.</p>
+        {% endif %}
+    </div>
+</main>
+
+<!-- Пагинация -->
+<div class="pagination">
+    <form action="/ribbon" method="POST">
+        <!-- Ссылка на первую страницу -->
+        <button type="submit" name="page" value="ribbon">1</button>
+        <!-- Стрелка влево -->
+        <button type="submit" name="page" value="prev">←</button>
+        <!-- Отображение текущей страницы -->
+        <span class="current-page">{{ current_page }}</span>
+        <!-- Стрелка вправо -->
+        <button type="submit" name="page" value="next">→</button>
+        <!-- Ссылка на последнюю страницу -->
+        <button type="submit" name="page" value="{{ total_pages }}">{{ total_pages }}</button>
+    </form>
+</div>
+{% endblock %}

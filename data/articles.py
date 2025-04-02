@@ -11,8 +11,8 @@ class Article(SqlAlchemyBase):
     title = sqlalchemy.Column(sqlalchemy.String, nullable=False)  # Заголовок статьи
     preview = sqlalchemy.Column(sqlalchemy.String, nullable=True)  # Краткое описание
     author_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'), nullable=False)  # ID автора
-    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)  # Дата создания
-    updated_date = sqlalchemy.Column(sqlalchemy.DateTime, onupdate=datetime.datetime.now, nullable=True)  # Дата обновления
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.date.today)  # Дата создания
+    updated_date = sqlalchemy.Column(sqlalchemy.DateTime, onupdate=datetime.date.today, nullable=True)  # Дата обновления
     article_text = sqlalchemy.Column(sqlalchemy.String, nullable=False) # Текст статьи
     views = sqlalchemy.Column(sqlalchemy.Integer, default=0, index=True)  # Количество просмотров
 

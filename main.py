@@ -1,11 +1,12 @@
 import base64
 
-from flask import Flask, render_template, url_for, redirect, request, jsonify
+from flask import Flask, render_template, url_for, redirect, request, jsonify, flash
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 
 from data import db_session
 from data.db_session import create_session
 from data.news_to_tags import NewsToTags
+from data.demands import Demand
 from data.tags import Tag
 from forms.article import CreateArticle
 from src.settings import SECRET_KEY  # Получаем секртеный ключ ответа сервера для flask-wtf
@@ -29,6 +30,15 @@ def main():
 def index():
     params = {}
     articles = get_last_articles()
+
+    db_sess = db_session.create_session()
+
+    if current_user.is_authenticated:
+        is_creator = db_sess.query(Demand).filter(Demand.user_id == current_user.id).first()
+        params["is_creator"] = is_creator
+    else:
+        params["is_creator"] = False
+
     params["title"] = "OGTIwi"
     params["articles"] = articles
 
@@ -96,39 +106,66 @@ def logout():
     return redirect("/")
 
 
-@app.route("/ribbon")
+@app.route("/ribbon", methods=['GET'])
 def ribbon():
-    page = request.args.get('page', default=1, type=int)
-
-    articles_per_page = 6 # Статей на странице
-    offset = (page - 1) * articles_per_page # Сколько записей нужно пропустить в бд для данной страницы
+    # Получаем параметры из запроса
+    query = request.args.get('query', '').strip()  # Поисковый запрос
+    page = request.args.get('page', default=1, type=int)  # Номер страницы
 
     db_sess = db_session.create_session()
 
-    # По умолчанию получаем последние 6 статей
-    articles = db_sess.query(Article).order_by(Article.id.desc()).offset(offset).limit(articles_per_page).all()
+    # Количество статей на странице
+    articles_per_page = 6
+    offset = (page - 1) * articles_per_page  # Сколько записей нужно пропустить
 
-    # Словарь для хранения параметров
-    params = {
-        "title": "Лента",
-        "articles": [],
-    }
+    if query:
+        # Если есть поисковый запрос, ищем статьи по заголовку, тексту или тегам
+        articles_data = (
+            db_sess.query(Article, Tag)
+            .select_from(Article)  # Явно указываем, что начинаем с таблицы Article
+            .join(NewsToTags)      # Присоединяем таблицу NewsToTags
+            .join(Tag)             # Присоединяем таблицу Tag
+            .filter(
+                (Article.title.ilike(f'%{query}%')) |  # Поиск в заголовке
+                (Article.article_text.ilike(f'%{query}%')) |  # Поиск в тексте статьи
+                (Tag.name.ilike(f'%{query}%'))  # Поиск в тегах
+            )
+            .distinct()
+            .all()
+        )
 
-    # Для каждой статьи получаем её теги
-    for article in articles:
-        article_to_tags = db_sess.query(NewsToTags).filter(NewsToTags.article_id == article.id).all()
+        # Преобразуем данные в нужный формат
+        articles = []
+        for article, tag in articles_data:
+            # Находим или создаем запись для статьи
+            article_entry = next((item for item in articles if item["article"].id == article.id), None)
+            if not article_entry:
+                article_entry = {"article": article, "tags": []}
+                articles.append(article_entry)
+            # Добавляем тег к статье
+            if tag and tag.name not in article_entry["tags"]:
+                article_entry["tags"].append(tag.name)
 
-        # Получаем имена тегов для текущей статьи
-        tags = [tag.tag.name for tag in article_to_tags]
+    else:
+        # Если нет поискового запроса, получаем статьи для ленты
+        articles_db = db_sess.query(Article).order_by(Article.id.desc()).offset(offset).limit(articles_per_page).all()
 
-        # Добавляем статью и её теги в параметры
-        params["articles"].append({
-            "article": article,
-            "tags": tags,
-        })
+        # Для каждой статьи получаем её теги
+        articles = []
+        for article in articles_db:
+            article_to_tags = db_sess.query(NewsToTags).filter(NewsToTags.article_id == article.id).all()
 
-    # Передаем параметры в шаблон или обработчик
-    return render_template("ribbon.html", **params)
+            # Получаем имена тегов для текущей статьи
+            tags = [tag.tag.name for tag in article_to_tags]
+
+            # Добавляем статью и её теги в список
+            articles.append({
+                "article": article,
+                "tags": tags,
+            })
+
+    # Передаем параметры в шаблон
+    return render_template("ribbon.html", articles=articles, query=query, page=page, title="Лента")
 
 
 @app.route("/account")
@@ -252,7 +289,7 @@ def create_article():
     }
 
     db_sess = db_session.create_session()
-    existing_tags_list = db_sess.query(Tag).all()
+    existing_tags_list = db_sess.query(Tag).limit(5).all()
 
     # Добавляем чекбоксы для существующих тегов
     for tag in existing_tags_list:
@@ -328,13 +365,13 @@ def settings():
         user = db_sess.query(User).filter(User.id == current_user.id).first()
 
         # Проверка уникальности никнейма
-        if form.nickname.data != current_user.username:
+        if form.username.data != current_user.username:
             is_nickname = db_sess.query(User.username).filter(User.username == form.nickname.data).first()
             if is_nickname and is_nickname[0] != current_user.username:
                 print("Пользователь с таким ником уже существует")
                 return render_template("settings.html", **params)
             else:
-                user.username = form.nickname.data
+                user.username = form.username.data
 
         if form.name.data != current_user.name:
             user.name = form.name.data
@@ -358,14 +395,76 @@ def confirmation():
     return "Страница подтверждения возможности создания статей"
 
 
-@app.route("/article/<int:article_id>/edit")
-def edit_article():
-    return "Страница редактирования статьи"
+@app.route("/article/<int:article_id>/edit", methods=["GET", "POST"])
+def edit_article(article_id):
+    if not current_user.is_authenticated:  # Если пользователь не авторизован
+        return redirect("/login")
+
+    # Получаем данные о статье
+    db_sess = db_session.create_session()
+    article = db_sess.query(Article).filter(Article.id == article_id).first()
+
+    # Проверяем, существует ли статья
+    if not article:
+        return "Такой статьи не существует", 404
+
+    # Проверяем, является ли текущий пользователь создателем статьи
+    if not article.user.id == current_user.id:
+        return "Отказано в доступе", 404
+
+    form = CreateArticle()
+
+    params = {"title": "Редактирование статьи",
+              "form": form}
+
+    return render_template("create_article.html", **params)
 
 
-@app.route("/account/<string:username>/all_articles")
-def all_user_articles():
-    return "Страница всех статей определённого пользователя"
+@app.route("/<string:username>/all_articles")
+def all_user_articles(username):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.username == username).first()
+
+    if not user:
+        return "Такого пользователя не существует", 404
+
+    # Получаем статьи пользователя через связь
+    articles = user.articles  # Это список статей, связанных с пользователем
+
+    params = {
+        "title": f"Статьи {username}",
+        "articles": articles,
+        "username": username
+    }
+
+    return render_template("user_articles.html", **params)
+
+
+@app.route("/send_confirmation", methods=["POST"])
+def send_confirmation():
+    try:
+        # Создаём сессию
+        db_sess = db_session.create_session()
+        is_send = db_sess.query(Demand).filter(Demand.user_id == current_user.id).all()
+
+        if is_send:
+            for data in is_send:
+                if data.status == "pending" or data.status == "approved":
+                    return jsonify({"message": "Вы уже делали запрос"}), 400
+
+        # Создаём запрос
+        demand = Demand()
+        demand.user_id = current_user.id
+        db_sess.add(demand)
+        db_sess.commit()
+
+        # Возвращаем успешный ответ
+        return jsonify({"message": "Запрос успешно отправлен"}), 200
+
+    except Exception as e:
+        # Возвращаем сообщение об ошибке
+        return jsonify({"message": f"Произошла ошибка: {str(e)}"}), 500
+
 
 if __name__ == '__main__':
     main()

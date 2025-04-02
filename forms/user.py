@@ -24,6 +24,6 @@ class RegisterForm(FlaskForm):
 class SettingsForm(FlaskForm):
     name = StringField("Имя")
     surname = StringField("Фамилия")
-    nickname = StringField("Никнейм", validators=[DataRequired()])
+    username = StringField("Никнейм", validators=[DataRequired()])
     about = TextAreaField("Информация о себе")
     submit = SubmitField('Сохранить изменения')

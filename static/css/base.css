@@ -551,7 +551,7 @@ button:hover {
   padding: 15px;
   background-color: var(--background-clr);
 }
-.article-item h3 {
+.article-item h2 {
   margin: 0 0 10px;
   color: var(--text-clr-h1);
 }

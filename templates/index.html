@@ -27,7 +27,7 @@
 
     <div class="base_info">
       <span class="OGTI">
-        <h1>OGTIwi — База знаний для студентов ОГТИ</h1>
+        <h1>OGTIwi — База знаний для ОГТИ</h1>
         <p>
           Наша цель — сделать процесс обучения и работы в колледже более эффективным, предоставляя доступ к проверенным решениям технических проблем,с которыми сталкивались в прошлом.
         </p>
@@ -58,9 +58,13 @@
       </div>
     </div>
 
-    <form class="for-btn-create" action="/request-article-permission" method="POST">
-        <button type="submit" class="create-article-btn">Написать статью</button>
-    </form>
+    {% if is_creator %}
+        {% if is_creator.status == "approved" %}
+            <form class="for-btn-create" action="/create_article" method="GET">
+                <button type="submit" class="create-article-btn">Написать статью</button>
+            </form>
+        {% endif %}
+    {% endif %}
 
     <script>
     let currentIndex = 0;

@@ -83,7 +83,7 @@
       <!-- Кнопки действий -->
       <div class="action-buttons">
         {{ form.submit(class="btn-save") }}
-        <button type="button" id="cancel-btn" class="btn-cancel">Отмена</button>
+        <button type="button" id="cancel-btn" class="btn-cancel" onclick="window.location.href='/index'">Отмена</button>
       </div>
     </form>
   </main>
@@ -112,5 +112,31 @@
     .catch(error => {
         console.error('Ошибка инициализации CKEditor 5:', error);
     });
+  document.addEventListener('DOMContentLoaded', () => {
+    const addTagButton = document.getElementById('add-tag-btn'); // Кнопка "Добавить тег"
+    const newTagsList = document.getElementById('new-tags-list'); // Список новых тегов
+    let tagIndex = {{ form.new_tags|length }}; // Начинаем с текущего количества полей
+
+    addTagButton.addEventListener('click', () => {
+      // Создаем новый элемент <li> для тега
+      const newTagItem = document.createElement('li');
+
+      // Создаем новое поле ввода
+      const newTagInput = document.createElement('input');
+      newTagInput.type = 'text';
+      newTagInput.name = `new_tags-${tagIndex}`; // Уникальное имя для каждого поля
+      newTagInput.className = 'form-input';
+      newTagInput.placeholder = 'Введите новый тег';
+
+      // Добавляем поле ввода в элемент <li>
+      newTagItem.appendChild(newTagInput);
+
+      // Добавляем элемент <li> в список тегов
+      newTagsList.appendChild(newTagItem);
+
+      // Увеличиваем индекс для следующего тега
+      tagIndex++;
+    });
+  });
 </script>
 {% endblock %}
