@@ -2,32 +2,6 @@
 
 {% block content %}
 	<main class="ribbon">
-		<!-- Сортировка -->
-		<div class="sort">
-			<!-- Кнопки применения сортировки -->
-		     <div class="sort-actions">
-		        <button id="apply-sort">🔎</button> <!-- Лупа -->
-		        <button id="reset-sort">↻</button> <!-- Закругленная стрелка -->
-		    </div>
-			<!-- Выпадающий список для сортировки -->
-			<div class="sort-options">
-				<label for="sort-by">Сортировать по дате:</label>
-				<label style="margin-right: 10px;">
-			    	<input type="radio" name="arrow" value="up"> ↑ 
-				</label>
-				<label>
-				    <input type="radio" name="arrow" value="down"> ↓
-				</label>
-			</div>
-			<!-- Теги -->
-			<h1>#Теги <input type="text" id="tag-search" placeholder="Поиск тегов"></h1>
-			<div class="tags">
-				<ul id="tags-list">
-					<!-- Теги сюда -->
-				</ul>
-			</div>
-		</div>
-
 		 <!-- Статьи -->
         <div class="articles-blocks">
             {% for item in articles %}
@@ -61,40 +35,4 @@
 	        <!-- Ссылка на последнюю страницу -->
 	        <button type="submit" name="page" value="{{ total_pages }}" onclick="window.location.href='/ribbon?page={{ max_page }}'">{{ max_page }}</button>
 	</div>
-	
-	<script>
-		document.addEventListener('DOMContentLoaded', () => {
-		    const tagsList = document.getElementById('tags-list'); // Находим контейнер для тегов
-
-		    // Массив тегов
-		    const tags = ["A", "B", "C", "D", "F", "G", "GG"];
-
-		    // Функция для отображения тегов с чекбоксами
-		    function displayTags() {
-		        tags.forEach(tag => {
-		            const listItem = document.createElement('li'); // Создаем элемент <li>
-
-		            // Создаем чекбокс
-		            const checkbox = document.createElement('input');
-		            checkbox.type = 'checkbox';
-		            checkbox.value = tag; // Значение чекбокса равно тегу
-		            checkbox.className = 'tag-checkbox'; // Добавляем класс для стилизации
-
-		            // Создаем текст тега
-		            const text = document.createElement('span');
-		            text.textContent = tag;
-
-		            // Добавляем чекбокс и текст в элемент списка
-		            listItem.appendChild(checkbox);
-		            listItem.appendChild(text);
-
-		            // Добавляем элемент списка в контейнер
-		            tagsList.appendChild(listItem);
-		        });
-		    }
-
-		    // Вызываем функцию для отображения тегов
-		    displayTags();
-		});
-	</script>
 {% endblock %}
