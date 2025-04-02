@@ -9,11 +9,14 @@
           <span class="date">{{ article.created_date.strftime('%Y-%m-%d') }}</span>
         </div>
         <div class="main-text">{{ article.article_text | safe }}</div>
+
         <!-- Место для автора и тегов -->
         <div class="author">
           <h1>
             <a href="/account/{{ article.user.username }}">{{ article.user.username }}</a>
           </h1>
+
+          <button>Редактровать</button>
         </div>
         <div class="tags-list-footer">
           {% for tag in tags %}
