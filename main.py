@@ -267,6 +267,17 @@ def create_article():
     }
 
     db_sess = db_session.create_session()
+    demands = db_sess.query(Demand).filter(Demand.user_id == current_user.id).all()
+    approved = None
+
+    for demand in demands:
+        if demand.status == "approved":
+            approved = "approved"
+            break
+
+    if not approved:
+        return "У вас недостаточно прав", 404
+
     existing_tags_list = db_sess.query(Tag).limit(5).all()
 
     # Добавляем чекбоксы для существующих тегов

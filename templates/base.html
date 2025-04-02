@@ -17,9 +17,13 @@
       <a href="/settings">Настройки</a>
     </nav>
 
-    <div class="create-button">
-      <p><a href="">✏️</a></p>
-    </div>
+     {% if is_creator %}
+        {% if is_creator.status == "approved" %}
+          <div class="create-button">
+            <p><a href="/create_article">✏️</a></p>
+          </div>
+        {% endif %}
+    {% endif %}
 
     <!-- ПОИСК -->
     <div class="search_block">
@@ -28,8 +32,6 @@
         <button type="submit">Найти</button>
       </form>
     </div>
-
-    
 
     <!-- AK -->
     {% if not current_user.is_authenticated %}
