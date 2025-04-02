@@ -3,7 +3,6 @@
 {% block content %}
   <main class="account-page">
     <section class="profile-info">
-      <h1 class="account-name">Профиль пользователя</h1>
       <div class="info-block">
         <!-- Фото -->
         <div class="user-avatar">
@@ -53,16 +52,22 @@
         <a href="">Обо мне</a>
       </h2>
       <div class="articles-list">
+      {% if about %}
         <p>
-          sdfsdfsfsf
+          {{ about }}
         </p>
+      {% else %}
+        <p>
+          Пользователь ничего не писал
+        </p>
+      {% endif %}
       </div>
     </section>
 
     <!-- Список последних статей -->
     <section class="user-articles">
       <h2 class="h2">
-        <a href="">Мои статьи</a>
+        <a href="/{{ nickname }}/all_articles">Мои статьи</a>
       </h2>
       <div class="articles-list">
       {% for article in last_articles[::-1] %}

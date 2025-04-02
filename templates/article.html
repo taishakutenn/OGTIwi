@@ -15,8 +15,9 @@
           <h1>
             <a href="/account/{{ article.user.username }}">{{ article.user.username }}</a>
           </h1>
-
-          <button>Редактровать</button>
+          {% if article.user.id == current_user.id %}
+            <button onclick="window.location.href='/article/{{ article.id }}/edit'">Редактровать</button>
+          {% endif %}
         </div>
         <div class="tags-list-footer">
           {% for tag in tags %}

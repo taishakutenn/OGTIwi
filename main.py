@@ -151,6 +151,7 @@ def account():
     params["email"] = current_user.email
     params["created_date"] = current_user.created_date
     params["last_articles"] = current_user.articles
+    params["about"] = current_user.about
 
     if current_user.name:
         params["name"] = current_user.name
@@ -225,6 +226,7 @@ def foreign_account(username):
         params["email"] = foreign_user.email
         params["created_date"] = foreign_user.created_date
         params["last_articles"] = foreign_user.articles
+        params["about"] = foreign_user.about
 
         foreign_avatar = foreign_user.binary_avatar
         params["foreign_avatar"] = foreign_avatar
