@@ -106,66 +106,44 @@ def logout():
     return redirect("/")
 
 
-@app.route("/ribbon", methods=['GET'])
+@app.route("/ribbon")
 def ribbon():
-    # Получаем параметры из запроса
-    query = request.args.get('query', '').strip()  # Поисковый запрос
-    page = request.args.get('page', default=1, type=int)  # Номер страницы
+    page = request.args.get('page', default=1, type=int)
+
+    articles_per_page = 6 # Статей на странице
+    offset = (page - 1) * articles_per_page # Сколько записей нужно пропустить в бд для данной страницы
 
     db_sess = db_session.create_session()
 
-    # Количество статей на странице
-    articles_per_page = 6
-    offset = (page - 1) * articles_per_page  # Сколько записей нужно пропустить
+    # По умолчанию получаем последние 6 статей
+    articles = db_sess.query(Article).order_by(Article.id.desc()).offset(offset).limit(articles_per_page).all()
 
-    if query:
-        # Если есть поисковый запрос, ищем статьи по заголовку, тексту или тегам
-        articles_data = (
-            db_sess.query(Article, Tag)
-            .select_from(Article)  # Явно указываем, что начинаем с таблицы Article
-            .join(NewsToTags)      # Присоединяем таблицу NewsToTags
-            .join(Tag)             # Присоединяем таблицу Tag
-            .filter(
-                (Article.title.ilike(f'%{query}%')) |  # Поиск в заголовке
-                (Article.article_text.ilike(f'%{query}%')) |  # Поиск в тексте статьи
-                (Tag.name.ilike(f'%{query}%'))  # Поиск в тегах
-            )
-            .distinct()
-            .all()
-        )
+    total_articles = db_sess.query(Article).count()  # Общее количество статей
+    max_page = (total_articles + articles_per_page - 1) // articles_per_page  # Расчёт количества страниц
 
-        # Преобразуем данные в нужный формат
-        articles = []
-        for article, tag in articles_data:
-            # Находим или создаем запись для статьи
-            article_entry = next((item for item in articles if item["article"].id == article.id), None)
-            if not article_entry:
-                article_entry = {"article": article, "tags": []}
-                articles.append(article_entry)
-            # Добавляем тег к статье
-            if tag and tag.name not in article_entry["tags"]:
-                article_entry["tags"].append(tag.name)
+    # Словарь для хранения параметров
+    params = {
+        "title": "Лента",
+        "articles": [],
+        "page": page,
+        "max_page": max_page
+    }
 
-    else:
-        # Если нет поискового запроса, получаем статьи для ленты
-        articles_db = db_sess.query(Article).order_by(Article.id.desc()).offset(offset).limit(articles_per_page).all()
+    # Для каждой статьи получаем её теги
+    for article in articles:
+        article_to_tags = db_sess.query(NewsToTags).filter(NewsToTags.article_id == article.id).all()
 
-        # Для каждой статьи получаем её теги
-        articles = []
-        for article in articles_db:
-            article_to_tags = db_sess.query(NewsToTags).filter(NewsToTags.article_id == article.id).all()
+        # Получаем имена тегов для текущей статьи
+        tags = [tag.tag.name for tag in article_to_tags]
 
-            # Получаем имена тегов для текущей статьи
-            tags = [tag.tag.name for tag in article_to_tags]
+        # Добавляем статью и её теги в параметры
+        params["articles"].append({
+            "article": article,
+            "tags": tags,
+        })
 
-            # Добавляем статью и её теги в список
-            articles.append({
-                "article": article,
-                "tags": tags,
-            })
-
-    # Передаем параметры в шаблон
-    return render_template("ribbon.html", articles=articles, query=query, page=page, title="Лента")
+    # Передаем параметры в шаблон или обработчик
+    return render_template("ribbon.html", **params)
 
 
 @app.route("/account")
@@ -371,7 +349,7 @@ def settings():
                 print("Пользователь с таким ником уже существует")
                 return render_template("settings.html", **params)
             else:
-                user.username = form.username.data
+                user.username = form.nickname.data
 
         if form.name.data != current_user.name:
             user.name = form.name.data
@@ -464,6 +442,71 @@ def send_confirmation():
     except Exception as e:
         # Возвращаем сообщение об ошибке
         return jsonify({"message": f"Произошла ошибка: {str(e)}"}), 500
+
+
+@app.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query', '').strip()  # Получаем поисковый запрос из параметра GET
+    page = request.args.get('page', default=1, type=int)  # Номер страницы
+
+    if not query:
+        return render_template('ribbon.html', articles=[], query=query, page=page, max_page=None)
+
+    db_sess = create_session()
+
+    # Количество статей на странице
+    articles_per_page = 6
+    offset = (page - 1) * articles_per_page  # Сколько записей нужно пропустить
+
+    # Ищем статьи, где заголовок, текст или теги содержат поисковый запрос
+    filtered_articles = (
+        db_sess.query(Article)
+        .select_from(Article)
+        .join(NewsToTags)
+        .join(Tag)
+        .filter(
+            (Article.title.ilike(f'%{query}%')) |  # Поиск в заголовке
+            (Article.article_text.ilike(f'%{query}%')) |  # Поиск в тексте статьи
+            (Tag.name.ilike(f'%{query}%'))  # Поиск в тегах
+        )
+        .distinct()
+    )
+
+    # Общее количество найденных статей
+    total_articles = filtered_articles.count()
+
+    # Расчёт общего количества страниц
+    max_page = (total_articles + articles_per_page - 1) // articles_per_page
+
+    # Получаем статьи для текущей страницы
+    articles_db = (
+        filtered_articles
+        .order_by(Article.id.desc())  # Сортируем по убыванию ID
+        .offset(offset)
+        .limit(articles_per_page)
+        .all()
+    )
+
+    # Преобразуем данные в нужный формат
+    articles = []
+    for article in articles_db:
+        # Получаем теги для текущей статьи
+        article_to_tags = db_sess.query(NewsToTags).filter(NewsToTags.article_id == article.id).all()
+        tags = [tag.tag.name for tag in article_to_tags]
+
+        # Добавляем статью и её теги в список
+        articles.append({
+            "article": article,
+            "tags": tags,
+        })
+    params = {"articles": articles,
+              "query": query,
+              "page": page,
+              "max_page": max_page,
+              "title": "Поиск"}
+
+    # Передаем параметры в шаблон
+    return render_template('ribbon.html', **params)
 
 
 if __name__ == '__main__':

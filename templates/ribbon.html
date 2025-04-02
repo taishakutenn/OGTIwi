@@ -50,18 +50,16 @@
     </main>
     <!-- Пагинация -->
 	<div class="pagination">
-	    <form action="/ribbon" method="POST">
 	        <!-- Ссылка на первую страницу -->
-	        <button type="submit" name="page" value="ribbon">1</button>
+	        <button type="submit" name="page" value="ribbon" onclick="window.location.href='/ribbon?page=1'">1</button>
 	        <!-- Стрелка влево -->
-	        <button type="submit" name="page" value="prev">←</button>
+	        <button type="submit" name="page" value="prev" onclick="window.location.href='/ribbon?page={{ page - 1 }}'">←</button>
 	        <!-- Отображение текущей страницы -->
-	        <span class="current-page">{{ current_page }}</span>
+	        <span class="current-page">{{ page }}</span>
 	        <!-- Стрелка вправо -->
-	        <button type="submit" name="page" value="next">→</button>
+	        <button type="submit" name="page" value="next" onclick="window.location.href='/ribbon?page={{ page + 1 }}'">→</button>
 	        <!-- Ссылка на последнюю страницу -->
-	        <button type="submit" name="page" value="{{ total_pages }}">{{ total_pages }}</button>
-	    </form>
+	        <button type="submit" name="page" value="{{ total_pages }}" onclick="window.location.href='/ribbon?page={{ max_page }}'">{{ max_page }}</button>
 	</div>
 	
 	<script>
