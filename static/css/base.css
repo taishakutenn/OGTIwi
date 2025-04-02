@@ -409,6 +409,23 @@ div.article-block.article-main .main-text {
   margin-left: 2.5%;
   margin-right: 2.5%;
 }
+.info div.author {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.info div.author button {
+  border: var(--border-std);
+  border-radius: 15px;
+  padding: 7px;
+  background-color: var(--btn-clr);
+  font-size: 18px;
+  margin-top: 1.5%;
+}
+.info div.author button:hover {
+  background-color: var(--btn-clr-cyan);
+}
+
 
 
 
