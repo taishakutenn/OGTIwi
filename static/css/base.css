@@ -624,15 +624,14 @@ main.edit-article-page {
 }
 main.edit-article-page p.title {
   text-align: center;
-  color: var(--a-hover);
-  font-size: 150%;
+  color: var(--text-clr-h1);
+  font-size: 160%;
   margin-bottom: 1%;
 }
 
 main.edit-article-page .form-section {
   margin-bottom: 20px;
 }
-
 main.edit-article-page label {
   display: block;
   margin-bottom: 5px;
@@ -648,12 +647,12 @@ main.edit-article-page textarea {
   border-radius: 4px;
   font-size: 16px;
   resize: vertical;
-  color: var(--label-clr);
+  color: var(--text-clr);
 }
 main.edit-article-page button {
   padding: 10px 15px;
   background-color: var(--btn-clr-cyan);
-  color: var(--a-hover);
+  color: var(--text-clr);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -675,7 +674,13 @@ main.edit-article-page #new-tags-list li {
   background-color: var(--background-clr-dark);
   padding: 5px 10px;
 }
-
+main.edit-article-page #existing-tags-list li {
+  display: flex;
+  gap: 5px;
+}
+#existing-tags-list {
+  padding-left: 0;
+}
 ul#new-tags-list {
   padding-left: 0;
 }
@@ -694,7 +699,7 @@ main.edit-article-page input:hover {
 }
 
 main.edit-article-page input#submit {
-  color: var(--label-clr);
+  color: var(--text-clr);
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;

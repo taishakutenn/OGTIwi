@@ -20,6 +20,7 @@ app.config['SECRET_KEY'] = SECRET_KEY
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 def main():
     db_session.global_init("db/ogti_wi_articles.db")  # Инициилизируем бд
     app.run()
@@ -32,12 +33,6 @@ def index():
     articles = get_last_articles()
 
     db_sess = db_session.create_session()
-
-    if current_user.is_authenticated:
-        is_creator = db_sess.query(Demand).filter(Demand.user_id == current_user.id).first()
-        params["is_creator"] = is_creator
-    else:
-        params["is_creator"] = False
 
     params["title"] = "OGTIwi"
     params["articles"] = articles
@@ -71,6 +66,7 @@ def register():
 
     return render_template("register.html", **params)
 
+
 # Коммент для пуша
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -93,13 +89,13 @@ def login():
     return render_template("login.html", form_log=form_log)
 
 
-@login_manager.user_loader # загружаем пользователя при запуске
+@login_manager.user_loader  # загружаем пользователя при запуске
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/logout') # забываем пользователя при вызове
+@app.route('/logout')  # забываем пользователя при вызове
 @login_required
 def logout():
     logout_user()
@@ -110,8 +106,8 @@ def logout():
 def ribbon():
     page = request.args.get('page', default=1, type=int)
 
-    articles_per_page = 6 # Статей на странице
-    offset = (page - 1) * articles_per_page # Сколько записей нужно пропустить в бд для данной страницы
+    articles_per_page = 6  # Статей на странице
+    offset = (page - 1) * articles_per_page  # Сколько записей нужно пропустить в бд для данной страницы
 
     db_sess = db_session.create_session()
 
@@ -185,7 +181,7 @@ def upload_avatar():
     # Создаём ссесию
     db_sess = db_session.create_session()
 
-    user = db_sess.query(User).filter(User.id == current_user.id).first() # Берём нужного пользователя
+    user = db_sess.query(User).filter(User.id == current_user.id).first()  # Берём нужного пользователя
     # Загружаем аватар в базу данных
     user.binary_avatar = base64_data
     db_sess.commit()
@@ -198,21 +194,29 @@ def inject_user_avatar():
     """
     Добавляет данные об аватаре пользователя в контекст всех шаблонов.
     """
+    db_sess = db_session.create_session()
+    if current_user.is_authenticated:
+        is_creator = db_sess.query(Demand).filter(Demand.user_id == current_user.id).first()
+
+    else:
+        is_creator = False
+
     if current_user.is_authenticated:
         user_avatar = current_user.binary_avatar  # Получаем Base64 строку изображения
     else:
         user_avatar = None  # Если пользователь не авторизован
 
-    return dict(user_avatar=user_avatar)
+    return dict(user_avatar=user_avatar, is_creator=is_creator)
 
 
 @app.route("/account/<string:username>")
 def foreign_account(username):
-    try: # Проверяем, существует ли пользователь с таким никнеймом
+    try:  # Проверяем, существует ли пользователь с таким никнеймом
         foreign_user = get_user_info(username=username)
 
         if foreign_user.id == current_user.id:
-            return redirect("/account") # Если попытались по этому пути найти свой профиль и залогинены - отправляем на свой аккаунт
+            return redirect(
+                "/account")  # Если попытались по этому пути найти свой профиль и залогинены - отправляем на свой аккаунт
 
         params = {}
         params["my_profile"] = False
