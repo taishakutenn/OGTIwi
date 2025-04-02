@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="CSS/base.css">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="LOGO.png" alt="logo.net">
+    </div>
+    <nav>
+      <a href="base.html">Главная</a>
+      <a href="ribbon.html">Лента</a>
+      <a href="">Настройки</a>
+    </nav>
+
+    <!-- ПОИСК -->
+    <div class="search_block">
+      <form>
+        <input type="text" placeholder="Поиск">
+        <button type="submit">Найти</button>
+      </form>
+    </div>
+    <!-- AK -->
+    <div class="account">
+      <a href="">Регистрация</a>
+      <a href="">Вход</a>
+    </div>
+  </header>
+
+  <main class="request-main">
+    <h1>Запросы на создание статьи</h1>
+
+    <ul class="request-list">
+      <!-- Пример запроса -->
+      <li class="request-item">
+          <div class="request-info">
+              <p><strong>Автор:</strong> Иван Иванов</p>
+              <p><strong>Email:</strong> ivan@example.com</p>
+              <p><strong>Название статьи:</strong> "Как научиться программировать за 30 дней"</p>
+          </div>
+          <div class="request-actions">
+              <!-- Форма для подтверждения -->
+              <form action="/admin/approve_request" method="POST">
+                  <input type="hidden" name="request_id" value="1">
+                  <button type="submit" class="approve-btn">Подтвердить</button>
+              </form>
+              <!-- Форма для отклонения -->
+              <form action="/admin/reject_request" method="POST">
+                  <input type="hidden" name="request_id" value="1">
+                  <button type="submit" class="reject-btn">Отклонить</button>
+              </form>
+          </div>
+      </li>
+
+      <!-- Второй пример запроса -->
+      <li class="request-item">
+          <div class="request-info">
+              <p><strong>Автор:</strong> Мария Петрова</p>
+              <p><strong>Email:</strong> maria@example.com</p>
+              <p><strong>Название статьи:</strong> "10 лучших книг по психологии"</p>
+          </div>
+          <div class="request-actions">
+              <form action="/admin/approve_request" method="POST">
+                  <input type="hidden" name="request_id" value="2">
+                  <button type="submit" class="approve-btn">Подтвердить</button>
+              </form>
+              <form action="/admin/reject_request" method="POST">
+                  <input type="hidden" name="request_id" value="2">
+                  <button type="submit" class="reject-btn">Отклонить</button>
+              </form>
+          </div>
+      </li>
+
+      <!-- Добавьте больше запросов здесь -->
+    </ul>
+  </main>
+</body>
+</html>
