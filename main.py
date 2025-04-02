@@ -71,7 +71,7 @@ def register():
 
     return render_template("register.html", **params)
 
-
+# Коммент для пуша
 @app.route("/login", methods=["GET", "POST"])
 def login():
     params = {}
