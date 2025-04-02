@@ -17,6 +17,10 @@
       <a href="/settings">Настройки</a>
     </nav>
 
+    <div class="create-button">
+      <p><a href="">✏️</a></p>
+    </div>
+
     <!-- ПОИСК -->
     <div class="search_block">
       <form action="/ribbon" method="GET">
@@ -24,6 +28,9 @@
         <button type="submit">Найти</button>
       </form>
     </div>
+
+    
+
     <!-- AK -->
     {% if not current_user.is_authenticated %}
       <div class="account">

@@ -117,6 +117,21 @@ div.search_block {
   margin-left: 10px;
 }
 
+
+
+
+/*create article*/
+
+div.create-button * {
+  background-color: none;
+  margin-left: 50%;
+}
+div.create-button *:hover {
+  text-decoration: none;
+}
+
+
+
 /* FOOTER */
 footer {
   background-color: var(--background-clr);

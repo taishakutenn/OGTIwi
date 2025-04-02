@@ -295,12 +295,12 @@ main.ribbon {
   border: none;
   border-radius: 5px; 
   cursor: pointer;
-  background-color: var(--background-clr); 
-  color: #ccc; 
+  background-color: var(--border-clr); 
+  color: var(--text-clr); 
   transition: var(--background-clr) 0.3s ease;
 }
 .pagination button:hover {
-  background-color: #1c2e4a; 
+  background-color: var(--background-clr); 
 }
 .pagination .current-page {
   font-size: 18px;
@@ -551,9 +551,16 @@ button:hover {
   padding: 15px;
   background-color: var(--background-clr);
 }
-.article-item h2 {
+.user-articles .h2 a {
   margin: 0 0 10px;
-  color: var(--text-clr-h1);
+  color: var(--base-text-clr);
+  font-size: 30px;
+}
+.user-articles .h2 a:hover {
+  color: var(--a-hover);
+}
+div.articles-list p {
+  word-break: break-all;
 }
 .article-item p {
   margin: 0 0 10px;
@@ -588,7 +595,6 @@ button:hover {
 .upload-btn:hover {
   opacity: 0.9;
 }
-
 
 
 
@@ -808,4 +814,13 @@ main.edit-article-page li {
 }
 .request-button:hover {
   background-color: var(--btn-clr-green);
+}
+
+
+
+/*USER_ARTICLES*/
+div.articles-blocks h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 25px;
 }
