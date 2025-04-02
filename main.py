@@ -387,7 +387,15 @@ def settings():
 
 @app.route("/admin/confirmation")
 def confirmation():
-    return "Страница подтверждения возможности создания статей"
+    if not current_user.is_authenticated:
+        return "Отказано в доступе", 402
+
+    if not current_user.role == "admin":
+        return "Недостаточно прав", 404
+
+    params = {"title": "Запросы"}
+
+    return render_template("request-page.html", **params)
 
 
 @app.route("/article/<int:article_id>/edit", methods=["GET", "POST"])
