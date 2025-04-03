@@ -9,7 +9,6 @@
         </h1>
         <p>
           <br>
-          <br>
           Филиал федерального государственного бюджетного образовательного учреждения
           высшего образования "Оренбургский государственный университет"
           <br>
@@ -24,7 +23,22 @@
           <br>
         </p>
       </span>
-      <span class="wiki"></span>
+    </div>
+
+    <div class="base_info">
+      <span class="OGTI">
+        <h1>OGTIwi — База знаний для ОГТИ</h1>
+        <p>
+          Наша цель — сделать процесс обучения и работы в колледже более эффективным, предоставляя доступ к проверенным решениям технических проблем,с которыми сталкивались в прошлом.
+        </p>
+        <br>
+        <h1>Кто мы?</h1>
+        <p>
+          Мы — команда студентов ОГТИ, которые стремятся сделать обучение и работу в колледже максимально комфортными.
+          Этот проект был создан для того, чтобы сохранить и передать бесценный опыт, приобретённый в прошлом,
+          а также обеспечить простой доступ к техническим решениям для всех участников образовательного процесса.
+        </p>
+      </span>
     </div>
 
     <!-- Последние статьи -->
@@ -35,7 +49,7 @@
         <div class="slider">
           {% for article in articles %}
             <div class="slide">
-              <h3>{{ article["title"] }}</h3>
+              <h3><a href="article/{{ article['id']}}">{{ article["title"] }}</a></h3>
               <p>{{ article["preview"] }}</p>
             </div>
           {% endfor %}
@@ -43,7 +57,45 @@
         <button class="slider-button next" onclick="nextSlide()">&#10095;</button>
       </div>
     </div>
-    </div>
+
+    {% if is_creator %}
+        {% if is_creator.status == "approved" %}
+            <form class="for-btn-create" action="/create_article" method="GET">
+                <button type="submit" class="create-article-btn">Написать статью</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <script>
+    let currentIndex = 0;
+
+    function showSlides(index) {
+      const slides = document.querySelectorAll('.slider .slide');
+      const totalGroups = Math.ceil(slides.length / 3); // Количество групп по 3 слайда
+      const slideWidth = slides[0].offsetWidth + 20; // Ширина слайда + отступы
+      const groupWidth = slideWidth * 3; // Ширина группы из 3 слайдов
+
+      if (index >= totalGroups) currentIndex = 0;
+      if (index < 0) currentIndex = totalGroups - 1;
+
+      const slider = document.querySelector('.slider');
+      slider.style.transform = `translateX(${-currentIndex * groupWidth}px)`;
+    }
+
+    function nextSlide() {
+      currentIndex++;
+      showSlides(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex--;
+      showSlides(currentIndex);
+    }
+
+    window.onload = () => {
+      showSlides(currentIndex);
+    };
+  </script>
 {% endblock %}
 
 

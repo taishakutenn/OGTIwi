@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="account-page">
+    <section class="profile-info">
+      <div class="info-block">
+        <!-- Фото -->
+        <div class="user-avatar">
+          {% if my_profile %}
+            {% if user_avatar %}
+              <img src="data:image/jpeg;base64,{{ user_avatar }}" alt="avatar.net">
+            {% else %}
+              <img src="{{ url_for('static', filename='images/stock.png') }}" alt="avatar.net">
+            {% endif %}
+          {% else %}
+            {% if foreign_avatar %}
+              <img src="data:image/jpeg;base64,{{ foreign_avatar }}" alt="avatar.net">
+            {% else %}
+              <img src="{{ url_for('static', filename='images/stock.png') }}" alt="avatar.net">
+            {% endif %}
+          {% endif %}
+          {% if my_profile %}
+            <form action="">
+              <label for="avatar-upload" class="upload-btn">Изменить фото</label>
+              <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+            </form>
+          {% endif %}
+        </div>
+        <p><strong>Nickname:</strong> {{ nickname }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        {% if name %}
+          <p><strong>Имя:</strong> {{ name }}</p>
+        {% endif %}
+        {% if surname %}
+          <p><strong>Фамилия:</strong> {{ surname }}</p>
+        {% endif %}
+        <p><strong>Дата регистрации:</strong> {{ created_date.strftime('%Y-%m-%d') }}</p>
+        {% if my_profile %}
+          <form action="/settings">
+            <button class="edit-profile-btn">Редактировать профиль</button>
+          </form>
+          <form action="logout">
+            <button class="logout-btn btn" type="submit">Выйти</button>
+          </form>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="user-articles">
+      <h2 class="h2">
+        <a href="">Обо мне</a>
+      </h2>
+      <div class="articles-list">
+      {% if about %}
+        <p>
+          {{ about }}
+        </p>
+      {% else %}
+        <p>
+          Пользователь ничего не писал
+        </p>
+      {% endif %}
+      </div>
+    </section>
+
+    <!-- Список последних статей -->
+    <section class="user-articles">
+      <h2 class="h2">
+        <a href="/{{ nickname }}/all_articles">Мои статьи</a>
+      </h2>
+      <div class="articles-list">
+      {% for article in last_articles[::-1] %}
+        <article class="article-item">
+          <h3>{{ article.title }}</h3>
+          <p> {{ article.preview }}</p>
+          <p class="article-link">
+            <a href="/article/{{ article.id }}" class="read-more">Читать далее</a>
+          </p>
+          
+        </article>
+      {% endfor %}
+      </div>
+    </section>
+
+<script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const avatarUpload = document.getElementById('avatar-upload');
+        const avatarPreview = document.getElementById('avatar-preview');
+
+        // Обработчик для загрузки фото и автоматической отправки
+        avatarUpload.addEventListener('change', (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+
+            // Показываем предварительный просмотр
+            reader.onload = (e) => {
+              avatarPreview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+
+            // Создаем FormData и отправляем файл на сервер
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            fetch('/upload_avatar', {
+              method: 'POST',
+              body: formData,
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+                return response.json(); // Предполагаем, что сервер возвращает JSON
+              })
+              .then((data) => {
+                console.log('Фото успешно загружено:', data);
+                alert('Фото успешно загружено!');
+              })
+              .catch((error) => {
+                console.error('Ошибка при загрузке фото:', error);
+                alert('Произошла ошибка при загрузке фото.');
+              });
+          }
+        });
+      });
+    </script>
+  </main>
+{% endblock %}

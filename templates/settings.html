@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="settings-page">
+      <h1>Настройки профиля</h1>
+  
+      <!-- Форма для изменения данных -->
+      <form action="{{ url_for('settings') }}" method="POST" class="settings-form">
+          {{ form.hidden_tag() }} <!-- Защита CSRF -->
+
+          <!-- Имя -->
+          {{ form.name.label }}
+          {{ form.name(class="form-control", placeholder="Введите имя") }}
+
+          <!-- Фамилия -->
+          {{ form.surname.label }}
+          {{ form.surname(class="form-control", placeholder="Введите фамилию") }}
+
+          <!-- Никнейм -->
+          {{ form.username.label }}
+          {{ form.username(class="form-control", placeholder="Введите никнейм") }}
+
+          <!-- Информация о себе -->
+          {{ form.about.label }}
+          {{ form.about(class="form-control", placeholder="Расскажите о себе") }}
+
+          <!-- Тема оформления -->
+          <label for="theme">Тема оформления:</label>
+          <select id="theme" name="theme">
+              <option value="light">Светлая</option>
+              <option value="dark">Темная</option>
+          </select>
+
+          <!-- Кнопка сохранения изменений -->
+          {{ form.submit(class="save-button") }}
+      </form>
+
+      <!-- Запрос на возможность создавать статьи -->
+      <div class="request-section">
+          <h2>Запрос на создание статей</h2>
+          <p>Чтобы получить возможность создавать статьи, отправьте запрос администратору.</p>
+          <button id="send-request-btn" class="request-button">Отправить запрос</button>
+      </div>
+
+      <script>
+          // Смена темы
+          document.getElementById('theme').addEventListener('change', function (event) {
+              const theme = event.target.value;
+              document.documentElement.setAttribute('data-theme', theme);
+              localStorage.setItem('theme', theme);
+          });
+
+          // Обработчик для кнопки "Отправить запрос"
+          document.addEventListener('DOMContentLoaded', () => {
+              const sendRequestBtn = document.getElementById('send-request-btn');
+
+              sendRequestBtn.addEventListener('click', () => {
+                  fetch('/send_confirmation', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                      },
+                  })
+                  .then(response => {
+                      if (!response.ok) {
+                          return response.json().then(data => {
+                              throw new Error(data.message || 'Произошла ошибка');
+                          });
+                      }
+                      return response.json();
+                  })
+                  .then(data => {
+                      alert(data.message);
+                  })
+                  .catch(error => {
+                      console.error('Ошибка:', error);
+                      alert(error.message || 'Произошла ошибка при отправке запроса.');
+                  });
+              });
+          });
+      </script>
+  </main>
+{% endblock %}

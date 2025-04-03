@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="reg-auth">
+    <div class="reg-container">
+      <!-- Форма регистрации -->
+      <div class="form-container" id="register-form-container">
+        <h2>Регистрация</h2>
+        <form id="register-form" action="{{ url_for('register') }}" method="POST">
+          {{ form_reg.hidden_tag() }}
+
+          <label>{{ form_reg.name.label }}</label>
+          {{ form_reg.name(class="form-control") }}
+          <!-- Отвечает за ошибку в поле ввода -->
+          {% for error in form_reg.name.errors %}
+              <p class="alert alert-danger" role="alert">
+                  {{ error }}
+              </p>
+          {% endfor %}
+
+          <label>{{ form_reg.email.label }}</label>
+          {{ form_reg.email(class="form-control") }}
+
+          {% for error in form_reg.email.errors %}
+              <p class="alert alert-danger" role="alert">
+                  {{ error }}
+              </p>
+          {% endfor %}
+
+          <label>{{ form_reg.password.label }}</label>
+          {{ form_reg.password(class="form-control") }}
+
+          {% for error in form_reg.password.errors %}
+              <p class="alert alert-danger" role="alert">
+                  {{ error }}
+              </p>
+          {% endfor %}
+
+          <label>{{ form_reg.retype_password.label }}</label>
+          {{ form_reg.retype_password(class="form-control") }}
+
+          {% for error in form_reg.retype_password.errors %}
+              <p class="alert alert-danger" role="alert">
+                  {{ error }}
+              </p>
+          {% endfor %}
+
+          {{ form_reg.submit(type="submit", class="btn btn-primary") }}
+        </form>
+          <p> {{ error_message }} </p>
+        <p>Уже есть аккаунт? <a href="{{ url_for('login') }}" id="login-link">Войти</a></p>
+      </div>
+    </div>
+  </main>
+{% endblock %}

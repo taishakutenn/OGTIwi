@@ -12,59 +12,56 @@
       <img src="{{ url_for('static', filename='images/LOGO.png')}}" alt="logo.net">
     </div>
     <nav>
-      <a href="base.html">Главная</a>
-      <a href="">Настройки</a>
+      <a href="/index">Главная</a>
+      <a href="/ribbon">Лента</a>
+      <a href="/settings">Настройки</a>
     </nav>
+
+     {% if is_creator %}
+        {% if is_creator.status == "approved" %}
+          <div class="create-button">
+            <p><a href="/create_article">✏️</a></p>
+          </div>
+        {% endif %}
+    {% endif %}
 
     <!-- ПОИСК -->
     <div class="search_block">
-      <form>
-        <input type="text" placeholder="Поиск">
+      <form action="/search" method="GET">
+        <input type="text" placeholder="Поиск" name="query">
         <button type="submit">Найти</button>
       </form>
     </div>
-    <!-- AKKKKK -->
+
+    <!-- AK -->
+    {% if not current_user.is_authenticated %}
+      <div class="account">
+        <a href="/register">Регистрация</a>
+        <a href="/login">Вход</a>
+      </div>
+    {% endif %}
+    {% if current_user.is_authenticated %}
     <div class="account">
-      <a href="">Регистрация</a>
-      <a href="">Вход</a>
+      {% if user_avatar %}
+    <img src="data:image/jpeg;base64,{{ user_avatar }}" alt="avatar.net" style="width: 50px; height: 50px; border-radius: 50%;">
+      {% else %}
+    <img src="{{ url_for('static', filename='images/stock.png') }}" alt="avatar.net" style="width: 50px; height: 50px; border-radius: 50%;">
+      {% endif %}
+      <a href="/account"> {{ current_user.username }}</a>
     </div>
+    {% endif %}
   </header>
 
   <main>
     {% block content %}{% endblock %}
   </main>
-
   <script>
-    let currentIndex = 0;
-
-    function showSlides(index) {
-      const slides = document.querySelectorAll('.slider .slide');
-      const totalGroups = Math.ceil(slides.length / 3); // Количество групп по 3 слайда
-      const slideWidth = slides[0].offsetWidth + 20; // Ширина слайда + отступы
-      const groupWidth = slideWidth * 3; // Ширина группы из 3 слайдов
-
-      if (index >= totalGroups) currentIndex = 0;
-      if (index < 0) currentIndex = totalGroups - 1;
-
-      const slider = document.querySelector('.slider');
-      slider.style.transform = `translateX(${-currentIndex * groupWidth}px)`;
-    }
-
-    function nextSlide() {
-      currentIndex++;
-      showSlides(currentIndex);
-    }
-
-    function prevSlide() {
-      currentIndex--;
-      showSlides(currentIndex);
-    }
-
-    window.onload = () => {
-      showSlides(currentIndex);
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      // Проверяем сохраненную тему в localStorage
+      const savedTheme = localStorage.getItem('theme') || 'dark'; // По умолчанию 'dark'
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    });
   </script>
-
   <footer>
     <div class="aboutUs">
       <h1>Разработчики</h1>

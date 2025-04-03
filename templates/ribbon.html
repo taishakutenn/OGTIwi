@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<main class="ribbon">
+		<!-- Статьи -->
+        <div class="articles-blocks">
+            {% for item in articles %}
+                <div class="article-block">
+                    <div class="header">
+                        <h1 class="title">
+                            <a href="/article/{{ item.article.id }}">{{ item.article.title }}</a>
+                        </h1>
+                        <span class="date-rib">{{ item.article.created_date.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    <div class="main-text">{{ item.article.preview }}</div>
+                    <div class="tags-list-footer">
+                        {% for tag in item.tags %}
+                            <p>#{{ tag }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+    <!-- Пагинация -->
+	<div class="pagination">
+	        <!-- Ссылка на первую страницу -->
+	        <button type="submit" name="page" value="ribbon" onclick="window.location.href='/ribbon?page=1'">1</button>
+	        <!-- Стрелка влево -->
+	        <button type="submit" name="page" value="prev" onclick="window.location.href='/ribbon?page={{ page - 1 }}'">←</button>
+	        <!-- Отображение текущей страницы -->
+	        <span class="current-page">{{ page }}</span>
+	        <!-- Стрелка вправо -->
+	        <button type="submit" name="page" value="next" onclick="window.location.href='/ribbon?page={{ page + 1 }}'">→</button>
+	        <!-- Ссылка на последнюю страницу -->
+	        <button type="submit" name="page" value="{{ total_pages }}" onclick="window.location.href='/ribbon?page={{ max_page }}'">{{ max_page }}</button>
+	</div>
+{% endblock %}

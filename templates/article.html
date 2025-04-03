@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="article-main-block">
+    <div class="article-block article-main">
+      <div class="info">
+        <div class="header">
+          <h1 class="title">{{ article.title }}</h1>
+          <span class="date">{{ article.created_date.strftime('%Y-%m-%d') }}</span>
+        </div>
+        <div class="main-text">{{ article.article_text | safe }}</div>
+
+        <!-- Место для автора и тегов -->
+        <div class="author">
+          <h1>
+            <a href="/account/{{ article.user.username }}">{{ article.user.username }}</a>
+          </h1>
+          {% if article.user.id == current_user.id %}
+            <button onclick="window.location.href='/article/{{ article.id }}/edit'">Редактровать</button>
+          {% endif %}
+        </div>
+        <div class="tags-list-footer">
+          {% for tag in tags %}
+            <p>#{{ tag }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
