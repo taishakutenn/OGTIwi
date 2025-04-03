@@ -715,3 +715,65 @@ div.articles-blocks h1 {
   margin-bottom: 15px;
   font-size: 25px;
 }
+
+/* REQUEST PAGE */
+.request-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.request-main h1 {
+  color: var(--text-clr-h1);
+  text-align: center;
+  font-size: 140%;
+  margin-bottom: 2%;
+}
+.request-main .request-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-direction: column;
+
+}
+.request-main .request-item {
+  background-color: var(--background-clr);
+  border: var(--border-std);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 15px;
+  display: flex;
+  /*justify-content: space-between;*/
+  align-items: center;
+  max-weight:150px;
+}
+.request-info {
+  flex-grow: 1;
+  /*flex-basis: 120%;*/
+}
+.request-actions form {
+  display: inline-block;
+  margin-left: 10px;
+}
+.request-actions button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--label-clr);
+}
+.request-actions .approve-btn {
+  background-color: var(--btn-clr-green);
+}
+.request-actions .reject-btn {
+  background-color: var(--btn-clr-red);
+}
+.request-actions .approve-btn:hover {
+  opacity: 0.9;
+}
+.request-actions .reject-btn:hover {
+  opacity: 0.9;
+}
+
+

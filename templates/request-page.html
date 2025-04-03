@@ -2,50 +2,41 @@
 
 {% block content %}
   <main class="request-main">
-    <h1>Запросы на создание статьи</h1>
+    <h1>Запросы на возможность создания статей</h1>
 
     <ul class="request-list">
       <!-- Пример запроса -->
-      <li class="request-item">
-          <div class="request-info">
-              <p><strong>Автор:</strong> Иван Иванов</p>
-              <p><strong>Email:</strong> ivan@example.com</p>
-              <p><strong>Название статьи:</strong> "Как научиться программировать за 30 дней"</p>
-          </div>
-          <div class="request-actions">
-              <!-- Форма для подтверждения -->
-              <form action="/admin/approve_request" method="POST">
-                  <input type="hidden" name="request_id" value="1">
-                  <button type="submit" class="approve-btn">Подтвердить</button>
+      {% for request in requests %}
+          <li class="request-item">
+              <div class="request-info">
+                  <p><strong>Автор:</strong> {{ request.username }}</p>
+                  <p><strong>Email:</strong> {{ request.email }}</p>
+              </div>
+              <div class="request-actions">
+                  <!-- Форма для подтверждения -->
+<!--                  <form action="/admin/approve_request" method="POST">-->
+<!--                      <input type="hidden" name="request_id" value="1">-->
+<!--                      <button type="submit" class="approve-btn">Подтвердить</button>-->
+<!--                  </form>-->
+<!--                  &lt;!&ndash; Форма для отклонения &ndash;&gt;-->
+<!--                  <form action="/admin/reject_request" method="POST">-->
+<!--                      <input type="hidden" name="request_id" value="1">-->
+<!--                      <button type="submit" class="reject-btn">Отклонить</button>-->
+<!--                  </form>-->
+              <form action="{{ url_for('handle_request') }}" method="POST">
+                <input type="hidden" name="user_id" value="{{ request.id }}">
+                <input type="hidden" name="action" value="approve">
+                <button type="submit" class="approve-btn">Подтвердить</button>
               </form>
-              <!-- Форма для отклонения -->
-              <form action="/admin/reject_request" method="POST">
-                  <input type="hidden" name="request_id" value="1">
-                  <button type="submit" class="reject-btn">Отклонить</button>
-              </form>
-          </div>
-      </li>
 
-      <!-- Второй пример запроса -->
-      <li class="request-item">
-          <div class="request-info">
-              <p><strong>Автор:</strong> Мария Петрова</p>
-              <p><strong>Email:</strong> maria@example.com</p>
-              <p><strong>Название статьи:</strong> "10 лучших книг по психологии"</p>
-          </div>
-          <div class="request-actions">
-              <form action="/admin/approve_request" method="POST">
-                  <input type="hidden" name="request_id" value="2">
-                  <button type="submit" class="approve-btn">Подтвердить</button>
-              </form>
-              <form action="/admin/reject_request" method="POST">
-                  <input type="hidden" name="request_id" value="2">
-                  <button type="submit" class="reject-btn">Отклонить</button>
-              </form>
-          </div>
-      </li>
-
-      <!-- Добавьте больше запросов здесь -->
+            <form action="{{ url_for('handle_request') }}" method="POST" style="display:inline;">
+                <input type="hidden" name="user_id" value="{{ request.id }}">
+                <input type="hidden" name="action" value="reject">
+                <button type="submit" class="reject-btn">Отклонить</button>
+            </form>
+              </div>
+          </li>
+        {% endfor %}
     </ul>
   </main>
 {% endblock %}

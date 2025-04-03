@@ -288,8 +288,8 @@ def create_article():
 
     # Добавляем чекбоксы для существующих тегов
     for tag in existing_tags_list:
-        form.existing_tags.append_entry()  # Добавляем новое поле
-        form.existing_tags[-1].label.text = tag.name  # Устанавливаем метку для чекбокса
+        form.existing_tags.append_entry(False)  # Установка начального значения False
+        form.existing_tags[-1].label.text = tag.name
 
     if form.validate_on_submit():
         try:
@@ -300,7 +300,7 @@ def create_article():
             # Получаем выбранные теги
             selected_tags = [
                 existing_tags_list[i].name for i, checkbox in enumerate(form.existing_tags)
-                if checkbox.data
+                if checkbox.data is True  # Явная проверка на True
             ]
 
             # Получаем новые теги
@@ -317,26 +317,26 @@ def create_article():
             db_sess.commit()  # Сохраняем статью, чтобы получить её id
 
             # Добавляем новые теги
-            existing_tag_names = {tag.name for tag in db_sess.query(Tag).all()}  # Множество существующих тегов
+            existing_tag_names = {tag.name for tag in db_sess.query(Tag).all()}
             for tag_name in new_tags:
                 if tag_name and tag_name not in existing_tag_names:
                     tag = Tag(name=tag_name)
                     db_sess.add(tag)
-                    existing_tag_names.add(tag_name)  # Обновляем множество
-            db_sess.commit()  # Сохраняем новые теги
+                    existing_tag_names.add(tag_name)
+            db_sess.commit()
 
             # Создаём связи между статьёй и тегами
-            for tag_name in selected_tags + new_tags:  # Объединяем выбранные и новые теги
+            for tag_name in selected_tags + new_tags:
                 tag = db_sess.query(Tag).filter(Tag.name == tag_name).first()
                 if tag:
                     news_to_tags = NewsToTags(article_id=article.id, tag_id=tag.id)
                     db_sess.add(news_to_tags)
 
-            db_sess.commit()  # Коммитим все изменения
+            db_sess.commit()
             return redirect(f"/article/{article.id}")
 
         except Exception as e:
-            db_sess.rollback()  # Откатываем изменения в случае ошибки
+            db_sess.rollback()
             return render_template('create_article.html', error="Произошла ошибка при создании статьи.", **params)
 
     return render_template('create_article.html', **params)
@@ -385,17 +385,57 @@ def settings():
     return render_template("settings.html", **params)
 
 
-@app.route("/admin/confirmation")
-def confirmation():
+@app.route("/admin/request_page")
+def request_page():
     if not current_user.is_authenticated:
-        return "Отказано в доступе", 402
+        return "Отказано в доступе", 401
 
-    if not current_user.role == "admin":
-        return "Недостаточно прав", 404
+    if current_user.role != "admin":
+        return "Недостаточно прав", 403
 
-    params = {"title": "Запросы"}
+    db_sess = db_session.create_session()
+    try:
+        # Получаем список ID пользователей с запросами в статусе "pending"
+        requests = [req[0] for req in db_sess.query(Demand.user_id).filter(Demand.status == "pending").all()]
+
+        # Получаем пользователей по этим ID
+        users_requests = db_sess.query(User).filter(User.id.in_(requests)).all()
+
+        # Сериализуем данные для передачи в шаблон
+        users_data = [{"id": user.id, "username": user.username, "email": user.email} for user in users_requests]
+    finally:
+        db_sess.close()
+
+    params = {
+        "title": "Запросы",
+        "requests": users_data
+    }
 
     return render_template("request-page.html", **params)
+
+
+@app.route("/admin/handle_request", methods=["POST"])
+def handle_request():
+    if not current_user.is_authenticated or current_user.role != "admin":
+        return "Недостаточно прав", 403
+
+    user_id = request.form.get("user_id")
+    action = request.form.get("action")  # "approve" или "reject"
+
+    if not user_id or action not in ["approve", "reject"]:
+        return "Неверный запрос", 400
+
+    db_sess = db_session.create_session()
+    try:
+        demand = db_sess.query(Demand).filter(Demand.user_id == user_id, Demand.status == "pending").first()
+        if demand:
+            demand.status = "approved" if action == "approve" else "rejected"
+            db_sess.commit()
+            return redirect("/admin/request_page")
+        else:
+            return "Запрос не найден", 404
+    finally:
+        db_sess.close()
 
 
 @app.route("/article/<int:article_id>/edit", methods=["GET", "POST"])
